@@ -1,5 +1,7 @@
 .create_main_wrapper {
   background-color: rgb(246, 249, 250);
+  padding-top: 4rem;
+  padding-bottom: 8rem;
 
   .create_container {
     max-width: 1024px;
@@ -62,6 +64,11 @@
       width: 260px;
     }
 
+    .created_at_wrapper {
+      margin-top: 2rem;
+      margin-bottom: 3rem;
+    }
+
     .contents_main_wrapper {
       margin-top: 2rem;
       border: 1px solid rgb(213, 217, 219);
@@ -78,7 +85,9 @@
       }
 
       .slate_editor_main_wrapper {
-        padding: 0 1.8rem;
+        padding: 0.5rem 1.8rem 1.5rem;
+
+        min-height: 500px;
       }
     }
   }

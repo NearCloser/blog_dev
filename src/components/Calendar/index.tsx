@@ -124,6 +124,11 @@ const Calendar = () => {
                   const isCurMonth = moment(mf).isSame(currentMonth, "M")
                     ? moment(mf).isSame(moment().format("YYYY-MM-DD"), "day")
                       ? `${style.is_today}`
+                      : moment(mf).isSame(
+                          moment(createdAt).format("YYYY-MM-DD"),
+                          "day"
+                        )
+                      ? `${style.is_Selected}`
                       : ``
                     : `${style.day_except}`;
 
@@ -131,7 +136,10 @@ const Calendar = () => {
                     <div
                       className={isCurMonth}
                       key={mf}
-                      onClick={() => setCreatedAt(mf)}
+                      onClick={() => {
+                        setIsShow(false);
+                        setCreatedAt(mf);
+                      }}
                     >
                       <div data-mf={mf} className={style.day_box}>
                         {format_number}

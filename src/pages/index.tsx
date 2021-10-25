@@ -69,6 +69,7 @@ const Home: NextPage = () => {
             }}
           />
         </div>
+
         <div className={style.input_file_wrapper}>
           <label htmlFor="img_file" className={style.label}>
             サムネイル
@@ -90,7 +91,12 @@ const Home: NextPage = () => {
           </div>
           {value && <img src={value} alt="" className={style.input_file_img} />}
         </div>
-        <Calendar />
+
+        <div className={style.created_at_wrapper}>
+          <label htmlFor="">投稿日</label>
+          <Calendar />
+        </div>
+
         <div className={style.contents_main_wrapper}>
           <RichTextEditor />
         </div>

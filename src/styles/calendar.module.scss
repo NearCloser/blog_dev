@@ -77,9 +77,15 @@
     .weeks_container {
       display: flex;
 
+      .is_Selected {
+        .day_box {
+          background-color: rgb(225, 236, 250);
+        }
+      }
+
       .is_today {
         .day_box {
-          background-color: rgb(196, 229, 248);
+          background-color: rgb(217, 239, 252);
         }
       }
 

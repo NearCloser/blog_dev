@@ -64,7 +64,7 @@ const RichTextEditor = () => {
           className={style.slate_editor_wrapper}
           renderElement={renderElement}
           renderLeaf={renderLeaf}
-          placeholder="Enter some rich text…"
+          placeholder="ブログを書いてみよう"
           autoCapitalize="false"
           spellCheck="false"
           autoCorrect="false"
