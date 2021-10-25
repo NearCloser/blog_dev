@@ -1,3 +1,4 @@
+import { useStore } from "@/store";
 import style from "@/styles/calendar.module.scss";
 import moment from "moment";
 import React, {
@@ -48,7 +49,6 @@ const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState(
     moment().format("YYYY-MM-DD")
   );
-  const [selectDay, setSelectDay] = useState(moment().format("YYYY-MM-DD"));
   const [isShow, setIsShow] = useState(false);
 
   const sDay = Number(moment(currentMonth).startOf("month").format("d"));
@@ -69,10 +69,13 @@ const Calendar = () => {
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, () => setIsShow(false));
 
+  const createdAt = useStore((state) => state.createdAt);
+  const setCreatedAt = useStore((state) => state.setCreatedAt);
+
   return (
     <div className={style.calendar_all_wrapper}>
       <div className={style.display_date} onClick={() => setIsShow(!isShow)}>
-        {moment(selectDay).format("YYYY年M月D日")}
+        {moment(createdAt).format("YYYY年M月D日")}
       </div>
       <div
         ref={ref}
@@ -128,7 +131,7 @@ const Calendar = () => {
                     <div
                       className={isCurMonth}
                       key={mf}
-                      onClick={() => setSelectDay(mf)}
+                      onClick={() => setCreatedAt(mf)}
                     >
                       <div data-mf={mf} className={style.day_box}>
                         {format_number}

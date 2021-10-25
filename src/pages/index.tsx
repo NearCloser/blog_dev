@@ -9,6 +9,7 @@ import axios from "axios";
 import style from "@/styles/create.module.scss";
 import { InputHTMLAttributes, useRef, useState } from "react";
 import { Calendar } from "@/components";
+import { useStore } from "@/store";
 
 const Home: NextPage = () => {
   const validationSchema = Yup.object({
@@ -47,6 +48,9 @@ const Home: NextPage = () => {
     }
   };
 
+  const title = useStore((state) => state.title);
+  const setTitle = useStore((state) => state.setTitle);
+
   return (
     <div className={style.create_main_wrapper}>
       <div className={style.create_container}>
@@ -54,7 +58,16 @@ const Home: NextPage = () => {
           <label htmlFor="main_title" className={style.label}>
             タイトル
           </label>
-          <input type="text" id="main_title" className={style.input_box} />
+          <input
+            type="text"
+            id="main_title"
+            className={style.input_box}
+            value={title}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              e.preventDefault();
+              setTitle(e.target.value);
+            }}
+          />
         </div>
         <div className={style.input_file_wrapper}>
           <label htmlFor="img_file" className={style.label}>

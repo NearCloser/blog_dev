@@ -8,13 +8,14 @@ import {
 } from "slate";
 import { withHistory } from "slate-history";
 import { Editable, withReact, Slate, RenderLeafProps } from "slate-react";
-// import { LeafKeys } from "./command/leaf";
-// import { toggleMark } from "./utils/mark/toggleMark";
+import { LeafKeys } from "./command/leaf";
+import { toggleMark } from "./utils";
 import { RenderElement } from "./render/element";
 import { RenderLeaf } from "./render/leaf";
 import { CustomEditor } from "@/@types";
 import style from "@/styles/create.module.scss";
 import SlateNavigation from "./navigation";
+import { useStore } from "@/store";
 
 const withLinks = (editor: Editor) => {
   const { isInline, normalizeNode } = editor;
@@ -35,8 +36,10 @@ const withLinks = (editor: Editor) => {
 };
 
 const RichTextEditor = () => {
+  const contents = useStore((state) => state.contents);
+  const setContents = useStore((state) => state.setContents);
+
   const editorRef = useRef<CustomEditor>();
-  const [value, setValue] = useState<Descendant[]>(initialValue);
   const renderElement = useCallback(
     (props) => <RenderElement {...props} />,
     []
@@ -50,7 +53,11 @@ const RichTextEditor = () => {
   const editor = editorRef.current;
 
   return (
-    <Slate editor={editor} value={value} onChange={(value) => setValue(value)}>
+    <Slate
+      editor={editor}
+      value={contents}
+      onChange={(value) => setContents(value)}
+    >
       <SlateNavigation />
       <div className={style.slate_editor_main_wrapper}>
         <Editable
@@ -62,7 +69,6 @@ const RichTextEditor = () => {
           spellCheck="false"
           autoCorrect="false"
           autoFocus
-
           // onKeyDown={(e) => {
           //   for (const hotkey in LeafKeys) {
           //     if (isHotkey(hotkey, e as KeyboardEvent)) {
@@ -76,17 +82,5 @@ const RichTextEditor = () => {
     </Slate>
   );
 };
-
-export const initialValue: Descendant[] = [
-  {
-    type: "paragraph",
-    children: [
-      { text: "今日は" },
-      { text: "新宿へ", bold: true },
-      { text: "ランチに", italic: true },
-      { text: "行きました。" },
-    ],
-  },
-];
 
 export default RichTextEditor;
