@@ -1,19 +1,18 @@
 import { Descendant } from "slate";
-import create, { SetState, GetState } from "zustand";
+import create, { GetState, SetState } from "zustand";
 import { devtools } from "zustand/middleware";
 import moment from "moment";
-import { CustomElement } from "@/@types";
 
-interface ArticleProps {
+interface T {
   title: string;
   createdAt: string;
-  contents: CustomElement[];
+  contents: Descendant[];
   setTitle: (title: string) => void;
   setCreatedAt: (createdAt: string) => void;
   setContents: (contents: Descendant[]) => void;
 }
 
-export const Store = (set: SetState<ArticleProps>) => ({
+const store = (set: SetState<T>, get: GetState<T>): T => ({
   title: "",
   createdAt: moment().format("YYYY-MM-DD"),
   contents: [
@@ -22,27 +21,21 @@ export const Store = (set: SetState<ArticleProps>) => ({
       children: [{ text: "" }],
     },
   ],
-  setTitle: (titleInputs: string) =>
-    set((state) => {
-      return {
-        ...state,
-        title: titleInputs,
-      };
-    }),
-  setCreatedAt: (createdAtInputs: string) =>
-    set((state) => {
-      return {
-        ...state,
-        createdAt: createdAtInputs,
-      };
-    }),
-  setContents: (contentsInputs: CustomElement[]) =>
-    set((state) => {
-      return {
-        ...state,
-        contents: contentsInputs,
-      };
-    }),
+  setTitle: (title: string): void =>
+    set((state) => ({
+      ...state,
+      title,
+    })),
+  setCreatedAt: (createdAt: string): void =>
+    set((state) => ({
+      ...state,
+      createdAt,
+    })),
+  setContents: (contents: Descendant[]): void =>
+    set((state) => ({
+      ...state,
+      contents,
+    })),
 });
 
-export const useStore = create<ArticleProps>(devtools(Store));
+export const useStore = create(devtools(store));

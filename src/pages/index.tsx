@@ -36,8 +36,8 @@ const Home: NextPage = () => {
 
   const [value, setValue] = useState("");
   const onChangeInputFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue("");
     if (e.target.files && e.target.files[0]) {
+      setValue("");
       const file = e.target.files[0];
       const reader = new FileReader();
       reader.onload = (e: any) => {
