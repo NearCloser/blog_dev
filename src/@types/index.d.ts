@@ -77,7 +77,7 @@ export type FormatType =
   | "list-item";
 
 export type UserCustomHeadings = {
-  name: HeadingElement["level"];
+  level: HeadingElement["level"];
   display: string;
   fontSize: number;
 }[];

@@ -20,7 +20,6 @@ export const toggleBlock: CustomEditorInterface["toggleBlock"] = (
     default:
       const defaultProps: Partial<CustomElement> = {
         type: isActive ? "paragraph" : format,
-        level,
       };
       Transforms.setNodes(editor, defaultProps);
   }
