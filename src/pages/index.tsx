@@ -29,7 +29,6 @@ const Home: NextPage = () => {
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-
   const FileInputHandler = () => {
     fileInputRef.current && fileInputRef.current.click();
   };
@@ -38,13 +37,22 @@ const Home: NextPage = () => {
   const onChangeInputFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setValue("");
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        console.log(e.target.result);
-        setValue(e.target.result);
-      };
-      reader.readAsDataURL(file);
+      uploadImage(e.target.files[0]);
+    }
+  };
+
+  const uploadImage = async (imgData: Blob) => {
+    const params = new FormData();
+    params.append("file", imgData);
+    try {
+      const { data } = await axios.post("/go/registerImage", params, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      });
+      console.log(data);
+    } catch (e) {
+      console.log(e);
     }
   };
 
