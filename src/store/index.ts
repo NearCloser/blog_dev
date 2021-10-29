@@ -7,9 +7,11 @@ interface T {
   title: string;
   createdAt: string;
   contents: Descendant[];
+  isOpenImagePortal: boolean;
   setTitle: (title: string) => void;
   setCreatedAt: (createdAt: string) => void;
   setContents: (contents: Descendant[]) => void;
+  toggleImagePortal: () => void;
 }
 
 const store = (set: SetState<T>, get: GetState<T>): T => ({
@@ -21,6 +23,7 @@ const store = (set: SetState<T>, get: GetState<T>): T => ({
       children: [{ text: "" }],
     },
   ],
+  isOpenImagePortal: false,
   setTitle: (title: string): void =>
     set((state) => ({
       ...state,
@@ -35,6 +38,11 @@ const store = (set: SetState<T>, get: GetState<T>): T => ({
     set((state) => ({
       ...state,
       contents,
+    })),
+  toggleImagePortal: () =>
+    set((state) => ({
+      ...state,
+      isOpenImagePortal: !state.isOpenImagePortal,
     })),
 });
 

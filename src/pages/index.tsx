@@ -60,7 +60,7 @@ const Home: NextPage = () => {
   const setTitle = useStore((state) => state.setTitle);
 
   return (
-    <div className={style.create_main_wrapper}>
+    <div className={style.create_main_wrapper} id="main_container">
       <div className={style.create_container}>
         <div className={style.input_container}>
           <label htmlFor="main_title" className={style.label}>

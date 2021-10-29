@@ -1,5 +1,6 @@
 import { MarkButton } from "../utils";
 import { HeadingsSelect } from "../headings";
+import { ImageUploadTool } from "../imageUpload";
 import {
   MARK_BOLD,
   MARK_ITALIC,
@@ -12,7 +13,7 @@ import {
   ELEMENT_H6,
   ELEMENT_PARAGRAPH,
 } from "../getTypes";
-
+import { Image as StyledImage } from "@styled-icons/material/Image";
 import { FormatBold } from "@styled-icons/material/FormatBold";
 import { FormatItalic } from "@styled-icons/material/FormatItalic";
 import { FormatUnderlined } from "@styled-icons/material/FormatUnderlined";
@@ -49,6 +50,7 @@ const SlateNavigation = () => {
           icon={<FormatUnderlined />}
           tooltip={{ content: "Underline (⌘U)" }}
         />
+        <ImageUploadTool icon={<StyledImage />} />
       </nav>
     </div>
   );
