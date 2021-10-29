@@ -1,0 +1,48 @@
+.header_main_wrapper {
+  background-color: white;
+  box-shadow: 2px 1px 8px 3px rgba(223, 220, 220, 0.329);
+  z-index: 100;
+  .header_container {
+    // max-width: 1024px;
+    // margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .header_container {
+      flex: 1;
+      max-width: 500px;
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+
+      .header_button {
+        cursor: pointer;
+        padding: 1.8rem 3.3rem;
+        cursor: pointer;
+        transition: opacity 0.3s;
+        opacity: 1;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+
+    .create_button_wrapper {
+      background-color: rgb(35, 119, 245);
+      padding: 1.8rem 3.3rem;
+      cursor: pointer;
+      transition: opacity 0.3s;
+      opacity: 1;
+
+      &:hover {
+        opacity: 0.8;
+      }
+      .create_button {
+        font-size: 1.6rem;
+        color: white;
+      }
+    }
+  }
+}

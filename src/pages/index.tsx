@@ -1,115 +1,60 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { RichTextEditor } from "@/components";
+import { MainLayout } from "@/layout";
+import style from "@/styles/home.module.scss";
+import { TimeFive } from "@styled-icons/boxicons-regular/TimeFive";
 import axios from "axios";
-import style from "@/styles/create.module.scss";
-import { InputHTMLAttributes, useRef, useState } from "react";
-import { Calendar } from "@/components";
-import { useStore } from "@/store";
+import moment from "moment";
+import { useRouter } from "next/router";
 
-const Home: NextPage = () => {
-  const validationSchema = Yup.object({
-    title: Yup.string().required("Required"),
-  });
+const Home = () => {
+  const router = useRouter();
 
-  const formik = useFormik({
-    initialValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-    },
-    validationSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const FileInputHandler = () => {
-    fileInputRef.current && fileInputRef.current.click();
-  };
-
-  const [value, setValue] = useState("");
-  const onChangeInputFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setValue("");
-      uploadImage(e.target.files[0]);
-    }
-  };
-
-  const uploadImage = async (imgData: Blob) => {
-    const params = new FormData();
-    params.append("file", imgData);
+  const createHandler = async () => {
     try {
-      const { data } = await axios.post("/go/registerImage", params, {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
+      const { data } = await axios.post("/go/create", {
+        created_at: moment().format("YYYY年M年D日"),
       });
-      console.log(data);
-    } catch (e) {
-      console.log(e);
+
+      router.push(`/books/${data.id}`);
+    } catch (error) {
+      console.log(error);
     }
   };
-
-  const title = useStore((state) => state.title);
-  const setTitle = useStore((state) => state.setTitle);
 
   return (
-    <div className={style.create_main_wrapper} id="main_container">
-      <div className={style.create_container}>
-        <div className={style.input_container}>
-          <label htmlFor="main_title" className={style.label}>
-            タイトル
-          </label>
-          <input
-            type="text"
-            id="main_title"
-            className={style.input_box}
-            value={title}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              e.preventDefault();
-              setTitle(e.target.value);
-            }}
-          />
-        </div>
-
-        <div className={style.input_file_wrapper}>
-          <label htmlFor="img_file" className={style.label}>
-            サムネイル
-          </label>
-          <div className={style.input_file_container}>
-            <input
-              name="img_file"
-              type="file"
-              ref={fileInputRef}
-              className={style.file_input}
-              onChange={onChangeInputFile}
-            />
-            <button
-              className={style.input_file_text}
-              onClick={() => FileInputHandler()}
+    <MainLayout>
+      <div className={style.home_main_wrapper}>
+        <div className={style.tool_box_wrapper}>
+          <div className={style.create_button_wrapper}>
+            <div
+              className={style.create_button}
+              onClick={() => createHandler()}
             >
-              ファイルを選択する
-            </button>
+              作成する
+            </div>
           </div>
-          {value && <img src={value} alt="" className={style.input_file_img} />}
         </div>
 
-        <div className={style.created_at_wrapper}>
-          <label htmlFor="">投稿日</label>
-          <Calendar />
-        </div>
+        <div className={style.list_main_wrapper}>
+          <div className={style.list_container}>
+            <div className={style.list_item}>
+              <h2 className={style.list_title}>ここにタイトルが入る</h2>
+              <div className={style.tag_container}>
+                <div className={style.tag_name}>タグの名前</div>
+                <div className={style.tag_name}>タグの名前</div>
+                <div className={style.tag_name}>タグの名前</div>
+              </div>
 
-        <div className={style.contents_main_wrapper}>
-          <RichTextEditor />
+              <div className={style.created_at_container}>
+                <div className={style.created_at}>
+                  <TimeFive size={14} />
+                  <span>2021年4月8日</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </MainLayout>
   );
 };
 

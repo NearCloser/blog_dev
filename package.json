@@ -10,6 +10,7 @@
     "ncu": "ncu -u && yarn"
   },
   "dependencies": {
+    "@styled-icons/boxicons-regular": "^10.38.0",
     "@styled-icons/material": "^10.34.0",
     "@tippyjs/react": "^4.2.5",
     "axios": "^0.24.0",
