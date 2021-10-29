@@ -12,8 +12,33 @@ import { Calendar } from "@/components";
 import { useStore } from "@/store";
 import { MainLayout } from "@/layout";
 import { useRouter } from "next/router";
+import useSWR from "swr";
+
+interface ArticleList {
+  docID: string;
+  title: string;
+  createdAt: string;
+  contents: string;
+}
+
+interface ArticleListProps {
+  final: ArticleList[];
+}
+
+const fetcher = async (url: string): Promise<ArticleListProps | null> => {
+  const response = await fetch(url);
+  return response.json();
+};
 
 const Home: NextPage = () => {
+  const router = useRouter();
+  const { id } = router.query;
+
+  const { data, error } = useSWR(
+    id ? `/go/retrieveArticle/${id}` : null,
+    fetcher
+  );
+  console.log(data);
   const validationSchema = Yup.object({
     title: Yup.string().required("Required"),
   });
