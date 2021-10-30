@@ -66,10 +66,16 @@ const Calendar = () => {
   const createdAt = useStore((state) => state.createdAt);
   const setCreatedAt = useStore((state) => state.setCreatedAt);
 
+  const getStyle = () => {
+    return createdAt
+      ? style.display_date
+      : `${style.is_loading} ${style.display_date}`;
+  };
+
   return (
     <div className={style.calendar_all_wrapper}>
-      <div className={style.display_date} onClick={() => setIsShow(!isShow)}>
-        {moment(createdAt).format("YYYY年M月D日")}
+      <div className={getStyle()} onClick={() => setIsShow(!isShow)}>
+        {createdAt ? moment(createdAt).format("YYYY年M月D日") : "YYYY年M月D日"}
       </div>
       <div
         ref={ref}
@@ -118,10 +124,7 @@ const Calendar = () => {
                   const isCurMonth = moment(mf).isSame(currentMonth, "M")
                     ? moment(mf).isSame(moment().format("YYYY-MM-DD"), "day")
                       ? `${style.is_today}`
-                      : moment(mf).isSame(
-                          moment(createdAt).format("YYYY-MM-DD"),
-                          "day"
-                        )
+                      : moment(mf).isSame(createdAt, "day")
                       ? `${style.is_Selected}`
                       : ``
                     : `${style.day_except}`;

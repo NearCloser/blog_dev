@@ -1,9 +1,11 @@
 import { MainLayout } from "@/layout";
+import { useStore } from "@/store";
 import style from "@/styles/home.module.scss";
 import { TimeFive } from "@styled-icons/boxicons-regular/TimeFive";
 import axios from "axios";
 import moment from "moment";
 import { useRouter } from "next/router";
+import { Descendant } from "slate";
 import useSWR from "swr";
 
 interface ArticleList {
@@ -24,12 +26,16 @@ const fetcher = async (url: string): Promise<ArticleListProps | null> => {
 
 const Home = () => {
   const router = useRouter();
+  const initialContents: Descendant[] = [
+    { type: "paragraph", children: [{ text: "" }] },
+  ];
   const { data, error } = useSWR("/go/retrieveAllArticle", fetcher);
 
   const createHandler = async () => {
     try {
       const { data } = await axios.post("/go/create", {
-        created_at: moment().format("YYYY年M年D日"),
+        createdAt: moment().format("YYYY-MM-DD"),
+        contents: JSON.stringify(initialContents),
       });
 
       router.push(`/books/${data.id}`);
@@ -37,7 +43,7 @@ const Home = () => {
       console.log(error);
     }
   };
-  console.log(data);
+  // console.log(data);
   return (
     <MainLayout>
       <div className={style.home_main_wrapper}>

@@ -1,0 +1,43 @@
+$loading-color: rgb(48, 138, 197);
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
+
+.loading {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  animation: spinner 0.8s ease reverse infinite;
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 20px;
+    height: 20px;
+    background-color: $loading-color;
+    // margin-top: -10px;
+    // margin-left: -10px;
+    // border-radius: 50%;
+    // border: 2px solid transparent;
+    // border-top-color: rgb(105, 152, 214);
+    // border-bottom-color: rgb(105, 152, 214);
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 0%;
+    right: 0%;
+    width: 20px;
+    height: 20px;
+    background-color: $loading-color;
+  }
+}

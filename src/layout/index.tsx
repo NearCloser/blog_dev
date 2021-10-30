@@ -5,7 +5,7 @@ export const MainLayout = ({ children }: { children: React.ReactChild }) => {
   return (
     <div id="main_layout">
       <Header />
-      {children}
+      <div id="main_layout_children_ontainer">{children}</div>
     </div>
   );
 };

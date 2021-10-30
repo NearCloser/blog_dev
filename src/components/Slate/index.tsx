@@ -53,33 +53,37 @@ const RichTextEditor = () => {
   const editor = editorRef.current;
 
   return (
-    <Slate
-      editor={editor}
-      value={contents}
-      onChange={(value) => setContents(value)}
-    >
-      <SlateNavigation />
-      <div className={style.slate_editor_main_wrapper}>
-        <Editable
-          className={style.slate_editor_wrapper}
-          renderElement={renderElement}
-          renderLeaf={renderLeaf}
-          placeholder="ブログを書いてみよう"
-          autoCapitalize="false"
-          spellCheck="false"
-          autoCorrect="false"
-          autoFocus
-          // onKeyDown={(e) => {
-          //   for (const hotkey in LeafKeys) {
-          //     if (isHotkey(hotkey, e as KeyboardEvent)) {
-          //       const mark = LeafKeys[hotkey];
-          //       toggleMark(editor, mark);
-          //     }
-          //   }
-          // }}
-        />
-      </div>
-    </Slate>
+    <>
+      {contents && (
+        <Slate
+          editor={editor}
+          value={contents}
+          onChange={(value) => setContents(value)}
+        >
+          <SlateNavigation />
+          <div className={style.slate_editor_main_wrapper}>
+            <Editable
+              className={style.slate_editor_wrapper}
+              renderElement={renderElement}
+              renderLeaf={renderLeaf}
+              placeholder="ブログを書いてみよう"
+              autoCapitalize="false"
+              spellCheck="false"
+              autoCorrect="false"
+              autoFocus
+              // onKeyDown={(e) => {
+              //   for (const hotkey in LeafKeys) {
+              //     if (isHotkey(hotkey, e as KeyboardEvent)) {
+              //       const mark = LeafKeys[hotkey];
+              //       toggleMark(editor, mark);
+              //     }
+              //   }
+              // }}
+            />
+          </div>
+        </Slate>
+      )}
+    </>
   );
 };
 

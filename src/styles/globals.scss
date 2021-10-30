@@ -40,3 +40,15 @@ button {
   outline: none;
   border: none;
 }
+
+#main_layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  #main_layout_children_ontainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}

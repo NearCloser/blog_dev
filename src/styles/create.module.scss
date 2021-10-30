@@ -2,6 +2,31 @@
   background-color: rgb(246, 249, 250);
   padding-top: 4rem;
   padding-bottom: 8rem;
+  flex: 1;
+
+  .tool_box_wrapper {
+    max-width: 1024px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-end;
+
+    .update_button_wrapper {
+      padding: 0.7rem 1.8rem;
+      background-color: rgb(48, 92, 150);
+      display: inline-block;
+      border-radius: 3px;
+      cursor: pointer;
+
+      .update_button {
+        color: white;
+        font-size: 1.3rem;
+      }
+      transition: opacity 0.3s;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
 
   .create_container {
     max-width: 1024px;
@@ -9,27 +34,6 @@
     flex: 1;
     width: 100%;
     background-color: rgb(246, 249, 250);
-    .input_container {
-      padding-top: 1.4rem;
-      max-width: 650px;
-
-      .label {
-        display: block;
-        font-size: 1.4rem;
-        padding-bottom: 0.2rem;
-        padding-left: 0.2rem;
-      }
-
-      .input_box {
-        border: 1px solid rgb(213, 217, 219);
-        font-size: 1.7rem;
-        font-weight: 300;
-        color: rgb(47, 59, 70);
-        border-radius: 6px;
-        padding: 0.8rem 1.3rem;
-        width: 100%;
-      }
-    }
 
     .input_file_wrapper {
       margin-top: 2rem;
@@ -96,6 +100,78 @@
       }
     }
   }
+}
+
+//title input
+.title_input_container {
+  padding-top: 1.4rem;
+  max-width: 650px;
+
+  .label {
+    display: block;
+    font-size: 1.4rem;
+    padding-bottom: 0.2rem;
+    padding-left: 0.2rem;
+  }
+
+  .input_container {
+    .input_box {
+      z-index: 0;
+      border: 1px solid rgb(213, 217, 219);
+      font-size: 1.7rem;
+      font-weight: 300;
+      color: rgb(47, 59, 70);
+      border-radius: 6px;
+      padding: 0.8rem 1.3rem;
+      width: 100%;
+
+      @keyframes loading {
+        100% {
+          transform: translateX(100%);
+        }
+      }
+    }
+  }
+}
+
+//is loading
+.is_loading {
+  position: relative;
+
+  &::before {
+    content: "";
+    background-color: #e7edf3;
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    border-radius: 6px;
+  }
+  &:after {
+    z-index: 100;
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.5),
+      transparent
+    );
+    animation: loading 0.8s infinite;
+  }
+}
+
+.loading_wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem 0;
 }
 
 //headings

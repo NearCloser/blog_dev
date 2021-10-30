@@ -4,37 +4,32 @@ import { devtools } from "zustand/middleware";
 import moment from "moment";
 
 interface T {
-  title: string;
-  createdAt: string;
-  contents: Descendant[];
+  title: string | null;
+  createdAt: string | null;
+  contents: Descendant[] | null;
   isOpenImagePortal: boolean;
-  setTitle: (title: string) => void;
-  setCreatedAt: (createdAt: string) => void;
-  setContents: (contents: Descendant[]) => void;
+  setTitle: (title: string | null) => void;
+  setCreatedAt: (createdAt: string | null) => void;
+  setContents: (contents: Descendant[] | null) => void;
   toggleImagePortal: () => void;
 }
 
 const store = (set: SetState<T>, get: GetState<T>): T => ({
   title: "",
   createdAt: moment().format("YYYY-MM-DD"),
-  contents: [
-    {
-      type: "paragraph",
-      children: [{ text: "" }],
-    },
-  ],
+  contents: null,
   isOpenImagePortal: false,
-  setTitle: (title: string): void =>
+  setTitle: (title: string | null): void =>
     set((state) => ({
       ...state,
       title,
     })),
-  setCreatedAt: (createdAt: string): void =>
+  setCreatedAt: (createdAt: string | null): void =>
     set((state) => ({
       ...state,
       createdAt,
     })),
-  setContents: (contents: Descendant[]): void =>
+  setContents: (contents: Descendant[] | null): void =>
     set((state) => ({
       ...state,
       contents,
