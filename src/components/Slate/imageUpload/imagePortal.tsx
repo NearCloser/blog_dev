@@ -9,6 +9,7 @@ import { useStore } from "@/store";
 import axios from "axios";
 import { DragEvent } from "react";
 import { useSlate } from "slate-react";
+import { insertImage } from "../utils/block/InsertImage";
 
 const ImagePortal = () => {
   const isOpenImagePortal = useStore((state) => state.isOpenImagePortal);

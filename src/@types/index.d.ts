@@ -49,6 +49,12 @@ export type LinkElement = {
   children: FormattedText[];
 };
 
+export type Imagelement = {
+  type: "image";
+  src: string;
+  alt: string;
+};
+
 export type CustomEditor = BaseEditor & ReactEditor & HistoryEditor;
 export type CustomElement =
   | OrderedListElement
@@ -57,7 +63,8 @@ export type CustomElement =
   | ParagraphElement
   | HeadingElement
   | CodeElement
-  | LinkElement;
+  | LinkElement
+  | Imagelement;
 
 declare module "slate" {
   interface CustomTypes {
@@ -74,7 +81,8 @@ export type FormatType =
   | "link"
   | "ordered-list"
   | "bulleted-list"
-  | "list-item";
+  | "list-item"
+  | "image";
 
 export type UserCustomHeadings = {
   level: HeadingElement["level"];
@@ -91,6 +99,15 @@ export interface CustomEditorInterface {
       isActive: boolean;
       level?: HeadingElement["level"];
       href?: string;
+    }
+  ) => void;
+  insertImage: (
+    editor: CustomEditor,
+    options: {
+      format: FormatType;
+      isActive: boolean;
+      src: string;
+      alt?: string;
     }
   ) => void;
   toggleLinkBlock: (editor: CustomEditor, href: string, text: string) => void;

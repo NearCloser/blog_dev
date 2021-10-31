@@ -4,23 +4,30 @@ import {
   useSelected,
   useSlateStatic,
 } from "slate-react";
-import { Transforms } from "slate";
-import { useEffect } from "react";
+import Image from "next/image";
 
 export const RenderElement = ({
   attributes,
   children,
   element,
 }: RenderElementProps) => {
-  const editor = useSlateStatic();
-  const selected = useSelected();
-  const focused = useFocused();
-
   switch (element.type) {
+    case "image":
+      return (
+        <Image
+          src={element.src}
+          alt={element.alt}
+          layout={"fixed"}
+          width={420}
+          height={280}
+          objectFit={`cover`}
+          {...attributes}
+          className="element-link"
+        />
+      );
     case "link":
       return (
         <a
-          // contentEditable={false}
           {...attributes}
           href={element.href}
           rel="noopener noreferrer"

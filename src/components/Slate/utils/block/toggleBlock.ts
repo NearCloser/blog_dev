@@ -1,6 +1,6 @@
 import { LinkElement, CustomElement, HeadingElement } from "@/@types";
-import { Transforms, Range } from "slate";
-import { CustomEditorInterface, FormattedText } from "@/@types";
+import { Transforms } from "slate";
+import { CustomEditorInterface } from "@/@types";
 
 /**
  *   toggle block mode by isActive

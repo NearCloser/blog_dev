@@ -6,7 +6,7 @@ const Title = () => {
   const setTitle = useStore((state) => state.setTitle);
 
   const getStyle = () => {
-    return title
+    return title !== null
       ? style.input_container
       : `${style.input_container} ${style.is_loading}`;
   };
@@ -21,7 +21,7 @@ const Title = () => {
           type="text"
           id="main_title"
           className={style.input_box}
-          value={title ? title : ""}
+          value={title ?? ""}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             e.preventDefault();
             setTitle(e.target.value);

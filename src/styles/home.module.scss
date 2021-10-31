@@ -33,15 +33,15 @@
       .list_item {
         cursor: pointer;
         border-radius: 2px;
-        padding: 0.8rem 2.5rem 1.5rem;
-        box-shadow: 2px 3px 8px 3px rgba(223, 220, 220, 0.329);
+        padding: 1.6rem 2.5rem 1.6rem;
+        box-shadow: 2px 3px 8px 3px rgba(211, 206, 206, 0.329);
         position: relative;
         margin-bottom: 1.6rem;
 
         .list_title {
-          font-weight: 600;
+          font-weight: 900;
           letter-spacing: 0.09rem;
-          font-size: 1.6rem;
+          font-size: 1.7rem;
           color: rgb(54, 63, 73);
         }
 
@@ -49,6 +49,7 @@
           display: flex;
           flex-wrap: wrap;
           gap: 1rem;
+          margin-top: 1rem;
 
           .tag_name {
             user-select: none;

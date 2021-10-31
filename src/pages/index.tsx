@@ -70,7 +70,7 @@ const Home = () => {
                       router.push(`/books/${docID}`);
                     }}
                   >
-                    <h2 className={style.list_title}>{title}</h2>
+                    <h2 className={style.list_title}>{title || "Untitled"}</h2>
                     <div className={style.tag_container}>
                       <div className={style.tag_name}>タグの名前</div>
                       <div className={style.tag_name}>タグの名前</div>
