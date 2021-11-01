@@ -9,20 +9,13 @@ html {
 }
 
 body {
-  font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN",
-    "Hiragino Sans", Meiryo, sans-serif;
+  font-family: Lato, "游ゴシック体", "Yu Gothic", YuGothic,
+    "ヒラギノ角ゴシック Pro", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo,
+    "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
   font-size: 1.5rem;
   font-feature-settings: "palt";
   font-size: 1.5rem;
   color: rgb(38, 43, 54);
-}
-
-b,
-strong,
-.bold {
-  font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI semibold",
-    "Helvetica Neue", HelveticaNeue, YuGothic, "Yu Gothic", "Segoe UI", Verdana,
-    Meiryo, sans-serif;
 }
 
 a {
