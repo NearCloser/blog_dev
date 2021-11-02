@@ -1,10 +1,8 @@
-import {
-  RenderElementProps,
-  useFocused,
-  useSelected,
-  useSlateStatic,
-} from "slate-react";
+import { RenderElementProps, useSelected } from "slate-react";
 import Image from "next/image";
+import style from "@/styles/create.module.scss";
+import { Delete } from "@styled-icons/feather/Delete";
+import { ImageDeleteTool } from "../imageUpload";
 
 export const RenderElement = ({
   attributes,
@@ -13,17 +11,25 @@ export const RenderElement = ({
 }: RenderElementProps) => {
   switch (element.type) {
     case "image":
+      const selected = useSelected();
+      console.log(selected);
       return (
-        <Image
-          src={element.src}
-          alt={element.alt}
-          layout={"fixed"}
-          width={420}
-          height={280}
-          objectFit={`cover`}
-          {...attributes}
-          className="element-link"
-        />
+        <div {...attributes}>
+          <figure className={style.figure_container}>
+            <Image
+              src={element.src}
+              alt={element.alt}
+              layout={"fixed"}
+              width={420}
+              height={280}
+              objectFit={`cover`}
+            />
+            <div className={style.figure_delete_button_wrapper}>
+              <ImageDeleteTool icon={<Delete />} {...{ element }} />
+            </div>
+          </figure>
+          {children}
+        </div>
       );
     case "link":
       return (

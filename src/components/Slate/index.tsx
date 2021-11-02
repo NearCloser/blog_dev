@@ -5,6 +5,10 @@ import {
   Descendant,
   Editor,
   Element as SlateElement,
+  Range,
+  Path,
+  Node,
+  Transforms,
 } from "slate";
 import { withHistory } from "slate-history";
 import { Editable, withReact, Slate, RenderLeafProps } from "slate-react";
@@ -17,8 +21,56 @@ import style from "@/styles/create.module.scss";
 import SlateNavigation from "./navigation";
 import { useStore } from "@/store";
 
-const withLinks = (editor: Editor) => {
-  const { isInline, normalizeNode } = editor;
+const withFloat = (editor: Editor) => {
+  const { isInline, normalizeNode, isVoid, insertBreak, deleteBackward } =
+    editor;
+
+  editor.isVoid = (element) => {
+    return element.type === "image" ? true : isVoid(element);
+  };
+
+  editor.insertBreak = () => {
+    if (!editor.selection || !Range.isCollapsed(editor.selection)) {
+      return insertBreak();
+    }
+
+    const selectedNodePath = Path.parent(editor.selection.anchor.path);
+    const selectedNode = Node.get(editor, selectedNodePath);
+    if (Editor.isVoid(editor, selectedNode)) {
+      console.log(selectedNode);
+      Editor.insertNode(editor, {
+        type: "paragraph",
+        children: [{ text: "" }],
+      });
+      return;
+    }
+
+    insertBreak();
+  };
+
+  editor.deleteBackward = (unit) => {
+    if (
+      !editor.selection ||
+      !Range.isCollapsed(editor.selection) ||
+      editor.selection.anchor.offset !== 0
+    ) {
+      return deleteBackward(unit);
+    }
+
+    const parentPath = Path.parent(editor.selection.anchor.path);
+    const parentNode = Node.get(editor, parentPath);
+    const parentIsEmpty = Node.string(parentNode).length === 0;
+
+    if (parentIsEmpty && Path.hasPrevious(parentPath)) {
+      const prevNodePath = Path.previous(parentPath);
+      const prevNode = Node.get(editor, prevNodePath);
+      if (Editor.isVoid(editor, prevNode)) {
+        return Transforms.removeNodes(editor);
+      }
+    }
+
+    deleteBackward(unit);
+  };
 
   editor.isInline = (elm) => {
     return elm.type === "link" ? true : isInline(elm);
@@ -49,7 +101,7 @@ const RichTextEditor = () => {
     []
   );
   if (!editorRef.current)
-    editorRef.current = withLinks(withHistory(withReact(createEditor())));
+    editorRef.current = withFloat(withHistory(withReact(createEditor())));
   const editor = editorRef.current;
 
   return (

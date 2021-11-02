@@ -12,7 +12,7 @@ import { CustomEditorInterface } from "@/@types";
  */
 export const insertImage: CustomEditorInterface["insertImage"] = (
   editor,
-  { format, isActive, src, alt }
+  { format, src, alt }
 ) => {
   switch (format) {
     case "image":
@@ -20,8 +20,9 @@ export const insertImage: CustomEditorInterface["insertImage"] = (
         type: "image",
         src,
         alt: alt ? alt : "",
+        children: [{ text: "" }],
       };
-      Transforms.insertNodes(editor, ImageBlock);
+      Transforms.insertNodes(editor, ImageBlock, { voids: true });
       break;
     default:
   }

@@ -53,6 +53,7 @@ export type Imagelement = {
   type: "image";
   src: string;
   alt: string;
+  children: [{ text: "" }];
 };
 
 export type CustomEditor = BaseEditor & ReactEditor & HistoryEditor;
@@ -105,7 +106,6 @@ export interface CustomEditorInterface {
     editor: CustomEditor,
     options: {
       format: FormatType;
-      isActive: boolean;
       src: string;
       alt?: string;
     }
