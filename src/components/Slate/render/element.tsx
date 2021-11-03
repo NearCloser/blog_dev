@@ -11,8 +11,6 @@ export const RenderElement = ({
 }: RenderElementProps) => {
   switch (element.type) {
     case "image":
-      const selected = useSelected();
-      console.log(selected);
       return (
         <div {...attributes}>
           <figure className={style.figure_container}>

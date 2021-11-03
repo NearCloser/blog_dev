@@ -102,6 +102,7 @@ const ImagePortal = () => {
                   height={`300px`}
                   width={`400px`}
                   objectFit={`contain`}
+                  alt={`preview_img`}
                 />
               </figure>
             ) : (

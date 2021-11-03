@@ -4,12 +4,13 @@ import * as Yup from "yup";
 import { RichTextEditor } from "@/components";
 import axios from "axios";
 import style from "@/styles/create.module.scss";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Calendar, Title } from "@/components";
 import { useStore } from "@/store";
 import { MainLayout } from "@/layout";
 import { useRouter } from "next/router";
 import ReactLoading from "react-loading";
+import Image from "next/image";
 
 interface ArticleList {
   docID: string;
@@ -30,7 +31,7 @@ const Home: NextPage = () => {
   const setCreatedAt = useStore((state) => state.setCreatedAt);
   const setContents = useStore((state) => state.setContents);
 
-  const retrieveArticle = async () => {
+  const retrieveArticle = useCallback(async () => {
     try {
       const { data } = await axios.get<ArticleListProps>(
         `/go/retrieveArticle/${id}`
@@ -43,7 +44,7 @@ const Home: NextPage = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [id, setContents, setCreatedAt, setTitle]);
 
   useEffect(() => {
     id && retrieveArticle();
@@ -53,7 +54,7 @@ const Home: NextPage = () => {
       setCreatedAt(null);
       setContents(null);
     };
-  }, [id]);
+  }, [id, setTitle, setCreatedAt, setContents, retrieveArticle]);
 
   // console.log(data);
   const validationSchema = Yup.object({
@@ -151,7 +152,13 @@ const Home: NextPage = () => {
               </button>
             </div>
             {value && (
-              <img src={value} alt="" className={style.input_file_img} />
+              <Image
+                src={value}
+                alt="alt"
+                className={style.input_file_img}
+                width={`300`}
+                height={`400`}
+              />
             )}
           </div>
 
