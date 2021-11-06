@@ -7,6 +7,7 @@ import type { LinkElement as SlateLinkElement } from '@/@types';
 interface T {
   title: string | null;
   createdAt: string | null;
+  categoryId: string | null;
   contents: Descendant[] | null;
   isOpenImagePortal: boolean;
   isOpenDeleteImagePortal: boolean;
@@ -17,6 +18,7 @@ interface T {
   linkPath: Path | null;
   setTitle: (title: string | null) => void;
   setCreatedAt: (createdAt: string | null) => void;
+  setCategory: (categoryId: string | null) => void;
   setContents: (contents: Descendant[] | null) => void;
   toggleImagePortal: () => void;
   toggleDeleteImagePortal: () => void;
@@ -29,6 +31,7 @@ interface T {
 const store = (set: SetState<T>, get: GetState<T>): T => ({
   title: '',
   createdAt: moment().format('YYYY-MM-DD'),
+  categoryId: '',
   contents: null,
   isOpenImagePortal: false,
   isOpenDeleteImagePortal: false,
@@ -46,6 +49,11 @@ const store = (set: SetState<T>, get: GetState<T>): T => ({
     set((state) => ({
       ...state,
       createdAt,
+    })),
+  setCategory: (categoryId: string | null): void =>
+    set((state) => ({
+      ...state,
+      categoryId,
     })),
   setContents: (contents: Descendant[] | null): void =>
     set((state) => ({

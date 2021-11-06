@@ -12,12 +12,10 @@ import useSWR from 'swr';
 interface ArticleList {
   articleId: string;
   title: string;
+  categoryId: string;
+  categoryName: string;
   createdAt: string;
   contents: string;
-}
-
-interface ArticleListProps {
-  data: ArticleList[];
 }
 
 const fetcher = async (url: string): Promise<ArticleList[] | null> => {
@@ -33,15 +31,16 @@ const fetcher = async (url: string): Promise<ArticleList[] | null> => {
 const Home = () => {
   const router = useRouter();
   const initialContents: Descendant[] = [{ type: 'paragraph', children: [{ text: '' }] }];
-  const { data, error } = useSWR('http://127.0.0.1:4000/article', fetcher);
+  const { data, error } = useSWR('http://127.0.0.1:4000/v1/article', fetcher);
 
   const CreateArticleHandler = async () => {
     try {
-      const { data } = await axios.post('http://127.0.0.1:4000/article', {
+      const { data } = await axios.post('http://127.0.0.1:4000/v1/article', {
         createdAt: moment().format('YYYY-MM-DD'),
         contents: JSON.stringify(initialContents),
       });
-      // router.push(`/books/${data.id}`);
+      const { articleId } = data;
+      router.push(`/books/${articleId}`);
     } catch (error) {
       console.log(error);
     }
@@ -61,7 +60,7 @@ const Home = () => {
         <div className={style.list_main_wrapper}>
           <div className={style.list_container}>
             {data &&
-              data.map(({ title, createdAt, articleId }) => {
+              data.map(({ title, createdAt, articleId, categoryId, categoryName }) => {
                 return (
                   <Link href={`/books/${articleId}`} key={articleId}>
                     <a>
@@ -79,6 +78,7 @@ const Home = () => {
                             <span>{createdAt}</span>
                           </div>
                         </div>
+                        <div className={style.category_container}>{categoryName}</div>
                       </div>
                     </a>
                   </Link>

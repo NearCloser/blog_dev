@@ -37,7 +37,11 @@ const CalendarRange = (start: moment.Moment, end: moment.Moment) => {
   return data;
 };
 
-const Calendar = () => {
+interface CalenProps {
+  createdAt: string;
+  setCreatedAt: (createdAt: string | null) => void;
+}
+const Calendar = ({ createdAt, setCreatedAt }: CalenProps) => {
   const [currentMonth, setCurrentMonth] = useState(moment().format('YYYY-MM-DD'));
   const [isShow, setIsShow] = useState(false);
 
@@ -58,9 +62,6 @@ const Calendar = () => {
 
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, () => setIsShow(false));
-
-  const createdAt = useStore((state) => state.createdAt);
-  const setCreatedAt = useStore((state) => state.setCreatedAt);
 
   const getStyle = () => {
     return createdAt ? style.display_date : `${style.is_loading} ${style.display_date}`;
