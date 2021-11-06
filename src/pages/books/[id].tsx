@@ -1,26 +1,22 @@
-import type { NextPage } from "next";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { RichTextEditor } from "@/components";
-import axios from "axios";
-import style from "@/styles/create.module.scss";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Calendar, Title } from "@/components";
-import { useStore } from "@/store";
-import { MainLayout } from "@/layout";
-import { useRouter } from "next/router";
-import ReactLoading from "react-loading";
-import Image from "next/image";
+import type { NextPage } from 'next';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { RichTextEditor } from '@/components';
+import axios from 'axios';
+import style from '@/styles/create.module.scss';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Calendar, Title } from '@/components';
+import { useStore } from '@/store';
+import { MainLayout } from '@/layout';
+import { useRouter } from 'next/router';
+import ReactLoading from 'react-loading';
+import Image from 'next/image';
 
 interface ArticleList {
-  docID: string;
+  ArticleId: string;
   title: string;
   createdAt: string;
   contents: string;
-}
-
-interface ArticleListProps {
-  final: ArticleList;
 }
 
 const Home: NextPage = () => {
@@ -31,12 +27,10 @@ const Home: NextPage = () => {
   const setCreatedAt = useStore((state) => state.setCreatedAt);
   const setContents = useStore((state) => state.setContents);
 
-  const retrieveArticle = useCallback(async () => {
+  const ListArticleHandler = useCallback(async () => {
     try {
-      const { data } = await axios.get<ArticleListProps>(
-        `/go/retrieveArticle/${id}`
-      );
-      const { title, createdAt, contents } = data?.final;
+      const { data } = await axios.get<ArticleList>(`http://127.0.0.1:4000/article/${id}`);
+      const { title, createdAt, contents } = data;
       const parsedContents = JSON.parse(contents);
       setTitle(title);
       setCreatedAt(createdAt);
@@ -47,25 +41,25 @@ const Home: NextPage = () => {
   }, [id, setContents, setCreatedAt, setTitle]);
 
   useEffect(() => {
-    id && retrieveArticle();
+    id && ListArticleHandler();
 
     return () => {
       setTitle(null);
       setCreatedAt(null);
       setContents(null);
     };
-  }, [id, setTitle, setCreatedAt, setContents, retrieveArticle]);
+  }, [id, setTitle, setCreatedAt, setContents, ListArticleHandler]);
 
   // console.log(data);
   const validationSchema = Yup.object({
-    title: Yup.string().required("Required"),
+    title: Yup.string().required('Required'),
   });
 
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
+      firstName: '',
+      lastName: '',
+      email: '',
     },
     validationSchema,
     onSubmit: (values) => {
@@ -77,21 +71,21 @@ const Home: NextPage = () => {
   const FileInputHandler = () => {
     fileInputRef.current && fileInputRef.current.click();
   };
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const onChangeInputFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setValue("");
+      setValue('');
       uploadImage(e.target.files[0]);
     }
   };
 
   const uploadImage = async (imgData: Blob) => {
     const params = new FormData();
-    params.append("file", imgData);
+    params.append('file', imgData);
     try {
-      const { data } = await axios.post("/go/registerImage", params, {
+      const { data } = await axios.post('http://127.0.0.1:4000/registerImage', params, {
         headers: {
-          "content-type": "multipart/form-data",
+          'content-type': 'multipart/form-data',
         },
       });
       console.log(data);
@@ -106,7 +100,7 @@ const Home: NextPage = () => {
 
   const updateHandler = async () => {
     try {
-      const { data } = await axios.post(`/go/update/${id}`, {
+      const { data } = await axios.post(`http://127.0.0.1:4000/update/${id}`, {
         title,
         createdAt,
         contents: JSON.stringify(contents),
@@ -120,12 +114,9 @@ const Home: NextPage = () => {
 
   return (
     <MainLayout>
-      <div className={style.create_main_wrapper} id="main_container">
+      <div className={style.create_main_wrapper} id='main_container'>
         <div className={style.tool_box_wrapper}>
-          <div
-            className={style.update_button_wrapper}
-            onClick={() => updateHandler()}
-          >
+          <div className={style.update_button_wrapper} onClick={() => updateHandler()}>
             <div className={style.update_button}>更新する</div>
           </div>
         </div>
@@ -133,28 +124,25 @@ const Home: NextPage = () => {
           <Title />
 
           <div className={style.input_file_wrapper}>
-            <label htmlFor="img_file" className={style.label}>
+            <label htmlFor='img_file' className={style.label}>
               サムネイル
             </label>
             <div className={style.input_file_container}>
               <input
-                name="img_file"
-                type="file"
+                name='img_file'
+                type='file'
                 ref={fileInputRef}
                 className={style.file_input}
                 onChange={onChangeInputFile}
               />
-              <button
-                className={style.input_file_text}
-                onClick={() => FileInputHandler()}
-              >
+              <button className={style.input_file_text} onClick={() => FileInputHandler()}>
                 ファイルを選択する
               </button>
             </div>
             {value && (
               <Image
                 src={value}
-                alt="alt"
+                alt='alt'
                 className={style.input_file_img}
                 width={`300`}
                 height={`400`}
@@ -163,7 +151,9 @@ const Home: NextPage = () => {
           </div>
 
           <div className={style.created_at_wrapper}>
-            <label htmlFor="">投稿日</label>
+            <label htmlFor='createdAt' className={style.created_at_label}>
+              投稿日
+            </label>
             <Calendar />
           </div>
 
@@ -174,10 +164,10 @@ const Home: NextPage = () => {
           ) : (
             <div className={style.loading_wrapper}>
               <ReactLoading
-                type={"cylon"}
-                color={"rgb(48, 92, 150)"}
-                height={"15%"}
-                width={"15%"}
+                type={'cylon'}
+                color={'rgb(48, 92, 150)'}
+                height={'15%'}
+                width={'15%'}
               />
             </div>
           )}

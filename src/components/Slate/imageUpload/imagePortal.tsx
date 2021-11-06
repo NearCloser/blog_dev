@@ -1,13 +1,13 @@
-import { Portal } from "@/components/Portal";
-import style from "@/styles/create.module.scss";
-import { useEffect, useRef, useState } from "react";
-import { useStore } from "@/store";
-import axios from "axios";
-import { DragEvent } from "react";
-import { useSlate } from "slate-react";
-import { insertImage } from "../utils/block/InsertImage";
-import { useRouter } from "next/router";
-import Image from "next/image";
+import { Portal } from '@/components/Portal';
+import style from '@/styles/create.module.scss';
+import { useEffect, useRef, useState } from 'react';
+import { useStore } from '@/store';
+import axios from 'axios';
+import { DragEvent } from 'react';
+import { useSlate } from 'slate-react';
+import { insertImage } from '../utils/block/InsertImage';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 const ImagePortal = () => {
   const isOpenImagePortal = useStore((state) => state.isOpenImagePortal);
@@ -19,7 +19,7 @@ const ImagePortal = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [objectURL, setObjectURL] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [altText, setAltText] = useState<string>("");
+  const [altText, setAltText] = useState<string>('');
 
   const altTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAltText(e.target.value);
@@ -28,16 +28,16 @@ const ImagePortal = () => {
   const uploadImage = async () => {
     try {
       const params = new FormData();
-      imageFile && params.append("file", imageFile);
-      const { data } = await axios.post(`/go/uploadImage/${id}`, params, {
+      imageFile && params.append('file', imageFile);
+      const { data } = await axios.post(`http://127.0.0.1:4000/uploadImage/${id}`, params, {
         headers: {
-          "content-type": "multipart/form-data",
+          'content-type': 'multipart/form-data',
         },
       });
       console.log(data);
       const { filename } = data;
       insertImage(editor, {
-        format: "image",
+        format: 'image',
         src: `https://delivery.far-float.jp/${id}/${filename}`,
         alt: altText,
       });
@@ -69,14 +69,14 @@ const ImagePortal = () => {
   };
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    e.dataTransfer.dropEffect = "move";
+    e.dataTransfer.dropEffect = 'move';
   };
 
   return (
     <Portal>
       <div
         style={{
-          visibility: isOpenImagePortal ? "visible" : "hidden",
+          visibility: isOpenImagePortal ? 'visible' : 'hidden',
           opacity: isOpenImagePortal ? 1 : 0,
         }}
         className={style.portal_overlay}
@@ -112,10 +112,7 @@ const ImagePortal = () => {
                 onDragOver={(e: DragEvent<HTMLDivElement>) => handleDragOver(e)}
               >
                 <div className={style.portal_drop_field}>
-                  <div
-                    className={style.select_file}
-                    onClick={() => clickHiddenInput()}
-                  >
+                  <div className={style.select_file} onClick={() => clickHiddenInput()}>
                     ファイルを選択する
                   </div>
                 </div>
@@ -124,19 +121,19 @@ const ImagePortal = () => {
             <input
               hidden
               ref={inputRef}
-              type="file"
-              accept="image/*"
+              type='file'
+              accept='image/*'
               onChange={onFileInputChange}
             />
 
             <div className={style.alt_input_wrapper}>
-              <label htmlFor="image_alt" className={style.alt_input_label}>
+              <label htmlFor='image_alt' className={style.alt_input_label}>
                 Alt
               </label>
               <input
                 className={style.alt_input}
-                id="image_alt"
-                type="text"
+                id='image_alt'
+                type='text'
                 onChange={altTextChange}
                 value={altText}
               />

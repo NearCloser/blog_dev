@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap');
+
 * {
   padding: 0;
   margin: 0;
@@ -9,14 +11,12 @@ html {
 }
 
 body {
-  font-family: Lato, "游ゴシック体", "Yu Gothic", YuGothic,
-    "ヒラギノ角ゴシック Pro", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo,
-    "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
-  font-size: 1.5rem;
-  font-feature-settings: "palt";
-  font-size: 1.5rem;
-  color: rgb(38, 43, 54);
-  overscroll-behavior-x: none;
+  font-family: 'UDKakugo_R', 'Source Sans Pro', sans-serif;
+  font-weight: 400;
+  font-size: 1.4rem;
+  font-feature-settings: 'palt';
+  color: rgb(60, 65, 75);
+  // overscroll-behavior-x: none;
 }
 
 a {
@@ -25,7 +25,13 @@ a {
 }
 
 p {
-  font-feature-settings: "palt";
+  font-feature-settings: 'palt';
+}
+label {
+  font-weight: 400;
+  display: block;
+  font-size: 1.2rem;
+  color: rgb(106, 113, 117);
 }
 
 input {
@@ -48,4 +54,10 @@ button {
     display: flex;
     flex-direction: column;
   }
+}
+
+.element-link {
+  cursor: pointer;
+  text-decoration: underline;
+  color: rgb(22, 121, 235);
 }

@@ -39,9 +39,9 @@
         margin-bottom: 1.6rem;
 
         .list_title {
-          font-weight: 900;
+          font-weight: 600;
           letter-spacing: 0.09rem;
-          font-size: 1.7rem;
+          font-size: 1.5rem;
           color: rgb(54, 63, 73);
         }
 
@@ -52,13 +52,14 @@
           margin-top: 1rem;
 
           .tag_name {
+            font-weight: 300;
             user-select: none;
             display: inline-block;
             border-radius: 3px;
             border: 1px solid rgb(224, 224, 224);
             color: gray;
-            padding: 0.12rem 0.8rem;
-            font-size: 1.2rem;
+            padding: 0.1rem 0.8rem;
+            font-size: 1rem;
           }
         }
 

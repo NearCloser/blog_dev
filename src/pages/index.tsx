@@ -1,58 +1,58 @@
-import { MainLayout } from "@/layout";
-import { useStore } from "@/store";
-import style from "@/styles/home.module.scss";
-import { TimeFive } from "@styled-icons/boxicons-regular/TimeFive";
-import axios from "axios";
-import moment from "moment";
-import { useRouter } from "next/router";
-import { Descendant } from "slate";
-import useSWR from "swr";
+import { MainLayout } from '@/layout';
+import Link from 'next/link';
+import { useStore } from '@/store';
+import style from '@/styles/home.module.scss';
+import { TimeFive } from '@styled-icons/boxicons-regular/TimeFive';
+import axios from 'axios';
+import moment from 'moment';
+import { useRouter } from 'next/router';
+import { Descendant } from 'slate';
+import useSWR from 'swr';
 
 interface ArticleList {
-  docID: string;
+  articleId: string;
   title: string;
   createdAt: string;
   contents: string;
 }
 
 interface ArticleListProps {
-  final: ArticleList[];
+  data: ArticleList[];
 }
 
-const fetcher = async (url: string): Promise<ArticleListProps | null> => {
-  const response = await fetch(url);
-  return response.json();
+const fetcher = async (url: string): Promise<ArticleList[] | null> => {
+  try {
+    const { data } = await axios.get<ArticleList[]>(url);
+    return data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 };
 
 const Home = () => {
   const router = useRouter();
-  const initialContents: Descendant[] = [
-    { type: "paragraph", children: [{ text: "" }] },
-  ];
-  const { data, error } = useSWR("/go/retrieveAllArticle", fetcher);
+  const initialContents: Descendant[] = [{ type: 'paragraph', children: [{ text: '' }] }];
+  const { data, error } = useSWR('http://127.0.0.1:4000/article', fetcher);
 
-  const createHandler = async () => {
+  const CreateArticleHandler = async () => {
     try {
-      const { data } = await axios.post("/go/create", {
-        createdAt: moment().format("YYYY-MM-DD"),
+      const { data } = await axios.post('http://127.0.0.1:4000/article', {
+        createdAt: moment().format('YYYY-MM-DD'),
         contents: JSON.stringify(initialContents),
       });
-
-      router.push(`/books/${data.id}`);
+      // router.push(`/books/${data.id}`);
     } catch (error) {
       console.log(error);
     }
   };
-  // console.log(data);
+
   return (
     <MainLayout>
       <div className={style.home_main_wrapper}>
         <div className={style.tool_box_wrapper}>
           <div className={style.create_button_wrapper}>
-            <div
-              className={style.create_button}
-              onClick={() => createHandler()}
-            >
+            <div className={style.create_button} onClick={() => CreateArticleHandler()}>
               作成する
             </div>
           </div>
@@ -61,29 +61,27 @@ const Home = () => {
         <div className={style.list_main_wrapper}>
           <div className={style.list_container}>
             {data &&
-              data.final.map(({ title, createdAt, docID }) => {
+              data.map(({ title, createdAt, articleId }) => {
                 return (
-                  <div
-                    className={style.list_item}
-                    key={docID}
-                    onClick={() => {
-                      router.push(`/books/${docID}`);
-                    }}
-                  >
-                    <h2 className={style.list_title}>{title || "Untitled"}</h2>
-                    <div className={style.tag_container}>
-                      <div className={style.tag_name}>タグの名前</div>
-                      <div className={style.tag_name}>タグの名前</div>
-                      <div className={style.tag_name}>タグの名前</div>
-                    </div>
+                  <Link href={`/books/${articleId}`} key={articleId}>
+                    <a>
+                      <div className={style.list_item}>
+                        <h2 className={style.list_title}>{title || 'Untitled'}</h2>
+                        <div className={style.tag_container}>
+                          <div className={style.tag_name}>タグの名前</div>
+                          <div className={style.tag_name}>タグの名前</div>
+                          <div className={style.tag_name}>タグの名前</div>
+                        </div>
 
-                    <div className={style.created_at_container}>
-                      <div className={style.created_at}>
-                        <TimeFive size={14} />
-                        <span>{createdAt}</span>
+                        <div className={style.created_at_container}>
+                          <div className={style.created_at}>
+                            <TimeFive size={14} />
+                            <span>{createdAt}</span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                    </a>
+                  </Link>
                 );
               })}
           </div>

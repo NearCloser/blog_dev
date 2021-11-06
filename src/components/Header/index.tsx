@@ -1,5 +1,5 @@
-import style from "@/styles/header.module.scss";
-import { useRouter } from "next/router";
+import style from '@/styles/header.module.scss';
+import { useRouter } from 'next/router';
 
 const Header = () => {
   const router = useRouter();
@@ -8,8 +8,11 @@ const Header = () => {
     <header className={style.header_main_wrapper}>
       <div className={style.header_container}>
         <nav className={style.header_container}>
-          <div className={style.header_button} onClick={() => router.push("/")}>
+          <div className={style.header_button} onClick={() => router.push('/')}>
             ブログ
+          </div>
+          <div className={style.header_button} onClick={() => router.push('/category')}>
+            カテゴリー
           </div>
         </nav>
 

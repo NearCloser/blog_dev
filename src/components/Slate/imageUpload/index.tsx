@@ -1,9 +1,9 @@
-import ImagePortal from "./imagePortal";
-import { DeletePortal } from "./deletePortal";
-import style from "@/styles/create.module.scss";
-import Tippy, { TippyProps } from "@tippyjs/react";
-import { useStore } from "@/store";
-import { RenderElementProps } from "slate-react";
+import ImagePortal from './imagePortal';
+import { DeletePortal } from './deletePortal';
+import style from '@/styles/create.module.scss';
+import Tippy, { TippyProps } from '@tippyjs/react';
+import { useStore } from '@/store';
+import { RenderElementProps } from 'slate-react';
 
 interface ImageUploadToolProps {
   icon: any;
@@ -12,7 +12,7 @@ export const ImageUploadTool = ({ icon }: ImageUploadToolProps) => {
   const toggleImagePortal = useStore((state) => state.toggleImagePortal);
 
   const tooltipProps: TippyProps = {
-    content: "画像をアップロードする",
+    content: '画像をアップロードする',
     arrow: true,
     offset: [0, 17],
     delay: 0,
@@ -28,7 +28,7 @@ export const ImageUploadTool = ({ icon }: ImageUploadToolProps) => {
             e.preventDefault();
             toggleImagePortal();
           }}
-          className={style.link_portal_button}
+          className={style.portal__button}
         >
           {icon}
         </div>
@@ -40,16 +40,14 @@ export const ImageUploadTool = ({ icon }: ImageUploadToolProps) => {
 
 interface ImageDeleteToolProps {
   icon: any;
-  element: RenderElementProps["element"];
+  element: RenderElementProps['element'];
 }
 
 export const ImageDeleteTool = ({ icon, element }: ImageDeleteToolProps) => {
-  const toggleDeleteImagePortal = useStore(
-    (state) => state.toggleDeleteImagePortal
-  );
+  const toggleDeleteImagePortal = useStore((state) => state.toggleDeleteImagePortal);
 
   const tooltipProps: TippyProps = {
-    content: "画像を削除する",
+    content: '画像を削除する',
     arrow: true,
     offset: [0, 17],
     delay: 0,
