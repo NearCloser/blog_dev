@@ -17,14 +17,20 @@ export const RenderElement = ({ attributes, children, element }: RenderElementPr
 
   switch (element.type) {
     case 'code':
-      console.log(element);
       return (
-        // <CodeBlock
-        //   codeString={element.children.text}
-        //   language={'javascript'}
-        //   title={`exmaple.js`}
-        // />
-        <p>{children}</p>
+        <div
+          {...attributes}
+          style={{
+            color: 'lightblue',
+          }}
+        >
+          {/* <CodeBlock
+            codeString={element.children[0].text}
+            language={'javascript'}
+            title={`exmaple.js`}
+          /> */}
+          {children}
+        </div>
       );
     case 'image':
       return (

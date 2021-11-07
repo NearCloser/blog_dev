@@ -28,7 +28,7 @@ export const CodeBlock = ({ codeString, language, title }: CodeProps) => {
       {({ style, tokens, getLineProps, getTokenProps }) => {
         return (
           <div className='mb-8'>
-            <div className='gatsby-title'>
+            <div className='gatsby-title' data-slate-void='true'>
               {title && (
                 <div className='py-3'>
                   <p className='text-gray-900 text-sm px-3 select-none'>{title}</p>

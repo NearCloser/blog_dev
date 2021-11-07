@@ -45,7 +45,7 @@ export const MarkButton: CustomEditorInterface['MarkButton'] = ({
         data-float='ToolbarButton'
         onMouseDown={(e: MouseEvent) => {
           e.preventDefault();
-          toggleMark(editor, { format, isActive });
+          toggleMark(editor, format);
         }}
       >
         {icon}

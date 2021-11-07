@@ -1,14 +1,23 @@
-import { LinkElement, CustomElement, HeadingElement, CodeElement } from '@/@types';
+import {
+  LinkElement,
+  CustomElement,
+  HeadingElement,
+  CodeElement,
+  ParagraphElement,
+} from '@/@types';
 import { Transforms } from 'slate';
 import { CustomEditorInterface } from '@/@types';
+import { isBlockActive } from './isBlockActive';
 
 /**
  *   toggle block mode by isActive
  */
 export const toggleBlock: CustomEditorInterface['toggleBlock'] = (
   editor,
-  { format, isActive, level, href },
+  { format, level, href },
 ) => {
+  const isActive = isBlockActive(editor, format);
+
   switch (format) {
     case 'heading':
       const headingBlock: Partial<HeadingElement> = {
@@ -16,13 +25,7 @@ export const toggleBlock: CustomEditorInterface['toggleBlock'] = (
         level,
       };
       Transforms.setNodes(editor, headingBlock);
-      break;
-    case 'code':
-      const codeBlock: Partial<CodeElement> = {
-        type: 'code',
-      };
-      Transforms.setNodes(editor, codeBlock);
-      break;
+
     default:
       const defaultProps: Partial<CustomElement> = {
         type: isActive ? 'paragraph' : format,

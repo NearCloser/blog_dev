@@ -51,7 +51,7 @@ export type LinkElement = {
 
 export type CodeElement = {
   type: 'code';
-  children: FormattedText;
+  children: FormattedText[];
 };
 
 export type ImageElement = {

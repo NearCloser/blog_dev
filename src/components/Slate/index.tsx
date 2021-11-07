@@ -36,7 +36,6 @@ const withFloat = (editor: Editor) => {
     const selectedNodePath = Path.parent(editor.selection.anchor.path);
     const selectedNode = Node.get(editor, selectedNodePath);
     if (Editor.isVoid(editor, selectedNode)) {
-      console.log(selectedNode);
       Editor.insertNode(editor, {
         type: 'paragraph',
         children: [{ text: '' }],
@@ -112,8 +111,12 @@ const RichTextEditor = () => {
               autoCorrect='false'
               autoFocus
               onKeyDown={(e) => {
-                for (const hotkey in LeafKeys) {
+                for (let hotkey in LeafKeys) {
                   if (isHotkey(hotkey, e as KeyboardEvent)) {
+                    if (hotkey === 'mod+Enter') {
+                      return Editor.insertText(editor, '\n');
+                    }
+                    //@ts-ignore
                     const format: FormattedTextMarkType = LeafKeys[hotkey];
                     toggleMark(editor, format);
                   }

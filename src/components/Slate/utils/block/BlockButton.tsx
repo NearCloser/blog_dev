@@ -18,7 +18,8 @@ export const BlockButton: CustomEditorInterface['BlockButton'] = ({
   icon,
   tooltip,
 }: BlockButtonProps) => {
-  const editor = useSlateStatic();
+  const editor = useSlate();
+
   const isActive = isBlockActive(editor, format);
 
   const tooltipProps: TippyProps = {
