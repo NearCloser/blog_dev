@@ -25,7 +25,14 @@ export const toggleBlock: CustomEditorInterface['toggleBlock'] = (
         level,
       };
       Transforms.setNodes(editor, headingBlock);
-
+      break;
+    case 'code':
+      const CodeProps: Partial<CustomElement> = {
+        type: isActive ? 'paragraph' : format,
+      };
+      console.log('insert block');
+      Transforms.setNodes(editor, CodeProps, { voids: true, mode: 'all' });
+      break;
     default:
       const defaultProps: Partial<CustomElement> = {
         type: isActive ? 'paragraph' : format,

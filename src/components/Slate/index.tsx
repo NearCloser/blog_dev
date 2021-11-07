@@ -25,7 +25,7 @@ const withFloat = (editor: Editor) => {
   const { isInline, normalizeNode, isVoid, insertBreak, deleteBackward } = editor;
 
   editor.isVoid = (element) => {
-    return element.type === 'image' ? true : isVoid(element);
+    return element.type === 'image' || element.type === 'code' ? true : isVoid(element);
   };
 
   editor.insertBreak = () => {

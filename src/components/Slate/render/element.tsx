@@ -17,6 +17,7 @@ export const RenderElement = ({ attributes, children, element }: RenderElementPr
 
   switch (element.type) {
     case 'code':
+      console.log(attributes);
       return (
         <div
           {...attributes}
@@ -24,11 +25,11 @@ export const RenderElement = ({ attributes, children, element }: RenderElementPr
             color: 'lightblue',
           }}
         >
-          {/* <CodeBlock
+          <CodeBlock
             codeString={element.children[0].text}
             language={'javascript'}
             title={`exmaple.js`}
-          /> */}
+          />
           {children}
         </div>
       );

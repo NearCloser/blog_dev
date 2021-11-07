@@ -47,11 +47,11 @@ const SlateNavigation = () => {
           icon={<FormatUnderlined />}
           tooltip={{ content: 'Underline (⌘U)' }}
         />
-        <BlockButton
+        {/* <BlockButton
           format={ELEMENT_CODE}
           icon={<StyledCodeSlash />}
           tooltip={{ content: 'Code (⌘U)' }}
-        />
+        /> */}
         <ImageUploadTool icon={<StyledImage />} />
         <InsertLinkTool icon={<StyledLink />} />
       </nav>
