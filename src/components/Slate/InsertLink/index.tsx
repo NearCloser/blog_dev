@@ -36,8 +36,3 @@ export const InsertLinkTool = ({ icon }: ImageUploadToolProps) => {
     </>
   );
 };
-
-interface ImageDeleteToolProps {
-  icon: any;
-  element: RenderElementProps['element'];
-}

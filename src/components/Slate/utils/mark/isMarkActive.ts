@@ -1,8 +1,8 @@
-import { BaseSelection, Editor, Transforms } from "slate";
-import { FormattedTextMarkType } from "@/@types";
+import { Editor } from 'slate';
+import { FormattedTextMarkType } from '@/@types';
 
-export const isMarkActive = (editor: Editor, type: FormattedTextMarkType) => {
+export const isMarkActive = (editor: Editor, format: FormattedTextMarkType) => {
   const marks = Editor.marks(editor);
 
-  return marks ? marks[type] === true : false;
+  return marks ? marks[format] === true : false;
 };

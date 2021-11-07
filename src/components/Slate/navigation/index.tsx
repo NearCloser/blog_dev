@@ -1,4 +1,4 @@
-import { MarkButton } from '../utils';
+import { MarkButton, BlockButton } from '../utils';
 import { HeadingsSelect } from '../headings';
 import { ImageUploadTool } from '../imageUpload';
 import { InsertLinkTool } from '../InsertLink';
@@ -6,15 +6,14 @@ import {
   MARK_BOLD,
   MARK_ITALIC,
   MARK_UNDERLINE,
+  ELEMENT_CODE,
   ELEMENT_H1,
   ELEMENT_H2,
   ELEMENT_H3,
-  ELEMENT_H4,
-  ELEMENT_H5,
-  ELEMENT_H6,
   ELEMENT_PARAGRAPH,
 } from '../getTypes';
 import { Image as StyledImage } from '@styled-icons/material/Image';
+import { CodeSlash as StyledCodeSlash } from '@styled-icons/bootstrap/CodeSlash';
 import { FormatBold } from '@styled-icons/material/FormatBold';
 import { FormatItalic } from '@styled-icons/material/FormatItalic';
 import { FormatUnderlined } from '@styled-icons/material/FormatUnderlined';
@@ -48,6 +47,7 @@ const SlateNavigation = () => {
           icon={<FormatUnderlined />}
           tooltip={{ content: 'Underline (⌘U)' }}
         />
+        <BlockButton format='code' icon={<StyledCodeSlash />} tooltip={{ content: 'Code (⌘U)' }} />
         <ImageUploadTool icon={<StyledImage />} />
         <InsertLinkTool icon={<StyledLink />} />
       </nav>

@@ -38,7 +38,7 @@ export type UnOrderedListElement = {
   children: ItemListElement[];
 };
 
-export type CodeElement = {
+export type QuoteElement = {
   type: 'block-quote';
   children: FormattedText[];
 };
@@ -47,6 +47,11 @@ export type LinkElement = {
   type: 'link';
   href: string;
   children: FormattedText[];
+};
+
+export type CodeElement = {
+  type: 'code';
+  children: FormattedText;
 };
 
 export type ImageElement = {
@@ -69,9 +74,10 @@ export type CustomElement =
   | ItemListElement
   | ParagraphElement
   | HeadingElement
-  | CodeElement
+  | QuoteElement
   | LinkElement
-  | ImageElement;
+  | ImageElement
+  | CodeElement;
 
 declare module 'slate' {
   interface CustomTypes {
@@ -89,7 +95,8 @@ export type FormatType =
   | 'ordered-list'
   | 'bulleted-list'
   | 'list-item'
-  | 'image';
+  | 'image'
+  | 'code';
 
 export type UserCustomHeadings = {
   level: HeadingElement['level'];
@@ -118,21 +125,15 @@ export interface CustomEditorInterface {
   ) => void;
   toggleLinkBlock: (editor: CustomEditor, href: string, text: string) => void;
   SelectHeadings: (editor: CustomEditor, level: HeadingElement['level']) => void;
-  toggleMark: (
-    editor: CustomEditor,
-    options: {
-      format: FormattedTextMarkType;
-      isActive: boolean;
-    },
-  ) => void;
+  toggleMark: (editor: CustomEditor, format: FormattedTextMarkType) => void;
   BlockButton: ({
     format,
-    text,
-    className,
+    icon,
+    tooltip,
   }: {
     format: FormatType;
-    text: string;
-    className?: string;
+    icon: any;
+    tooltip: TippyProps;
   }) => React.ReactElement;
   MarkButton: ({
     format,

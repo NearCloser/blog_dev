@@ -1,5 +1,5 @@
-import isHotkey from "is-hotkey";
-import React, { useCallback, useState, KeyboardEvent, useRef } from "react";
+import isHotkey from 'is-hotkey';
+import React, { useCallback, useState, KeyboardEvent, useRef } from 'react';
 import {
   createEditor,
   Descendant,
@@ -9,24 +9,23 @@ import {
   Path,
   Node,
   Transforms,
-} from "slate";
-import { withHistory } from "slate-history";
-import { Editable, withReact, Slate, RenderLeafProps } from "slate-react";
-import { LeafKeys } from "./command/leaf";
-import { toggleMark } from "./utils";
-import { RenderElement } from "./render/element";
-import { RenderLeaf } from "./render/leaf";
-import { CustomEditor } from "@/@types";
-import style from "@/styles/create.module.scss";
-import SlateNavigation from "./navigation";
-import { useStore } from "@/store";
+} from 'slate';
+import { withHistory } from 'slate-history';
+import { Editable, withReact, Slate, RenderLeafProps } from 'slate-react';
+import { LeafKeys } from './command/leaf';
+import { toggleMark } from './utils';
+import { RenderElement } from './render/element';
+import { RenderLeaf } from './render/leaf';
+import { CustomEditor, FormattedTextMarkType } from '@/@types';
+import style from '@/styles/create.module.scss';
+import SlateNavigation from './navigation';
+import { useStore } from '@/store';
 
 const withFloat = (editor: Editor) => {
-  const { isInline, normalizeNode, isVoid, insertBreak, deleteBackward } =
-    editor;
+  const { isInline, normalizeNode, isVoid, insertBreak, deleteBackward } = editor;
 
   editor.isVoid = (element) => {
-    return element.type === "image" ? true : isVoid(element);
+    return element.type === 'image' ? true : isVoid(element);
   };
 
   editor.insertBreak = () => {
@@ -39,8 +38,8 @@ const withFloat = (editor: Editor) => {
     if (Editor.isVoid(editor, selectedNode)) {
       console.log(selectedNode);
       Editor.insertNode(editor, {
-        type: "paragraph",
-        children: [{ text: "" }],
+        type: 'paragraph',
+        children: [{ text: '' }],
       });
       return;
     }
@@ -73,13 +72,13 @@ const withFloat = (editor: Editor) => {
   };
 
   editor.isInline = (elm) => {
-    return elm.type === "link" ? true : isInline(elm);
+    return elm.type === 'link' ? true : isInline(elm);
   };
 
   editor.normalizeNode = (entry) => {
     const [node] = entry;
 
-    if (SlateElement.isElement(node) && node.type === "link") {
+    if (SlateElement.isElement(node) && node.type === 'link') {
     }
     normalizeNode(entry);
   };
@@ -92,45 +91,34 @@ const RichTextEditor = () => {
   const setContents = useStore((state) => state.setContents);
 
   const editorRef = useRef<CustomEditor>();
-  const renderElement = useCallback(
-    (props) => <RenderElement {...props} />,
-    []
-  );
-  const renderLeaf = useCallback(
-    (props: RenderLeafProps) => <RenderLeaf {...props} />,
-    []
-  );
-  if (!editorRef.current)
-    editorRef.current = withFloat(withHistory(withReact(createEditor())));
+  const renderElement = useCallback((props) => <RenderElement {...props} />, []);
+  const renderLeaf = useCallback((props: RenderLeafProps) => <RenderLeaf {...props} />, []);
+  if (!editorRef.current) editorRef.current = withFloat(withHistory(withReact(createEditor())));
   const editor = editorRef.current;
 
   return (
     <>
       {contents && (
-        <Slate
-          editor={editor}
-          value={contents}
-          onChange={(value) => setContents(value)}
-        >
+        <Slate editor={editor} value={contents} onChange={(value) => setContents(value)}>
           <SlateNavigation />
           <div className={style.slate_editor_main_wrapper}>
             <Editable
               className={style.slate_editor_wrapper}
               renderElement={renderElement}
               renderLeaf={renderLeaf}
-              placeholder="ブログを書いてみよう"
-              autoCapitalize="false"
-              spellCheck="false"
-              autoCorrect="false"
+              placeholder='ブログを書いてみよう'
+              autoCapitalize='false'
+              spellCheck='false'
+              autoCorrect='false'
               autoFocus
-              // onKeyDown={(e) => {
-              //   for (const hotkey in LeafKeys) {
-              //     if (isHotkey(hotkey, e as KeyboardEvent)) {
-              //       const mark = LeafKeys[hotkey];
-              //       toggleMark(editor, mark);
-              //     }
-              //   }
-              // }}
+              onKeyDown={(e) => {
+                for (const hotkey in LeafKeys) {
+                  if (isHotkey(hotkey, e as KeyboardEvent)) {
+                    const format: FormattedTextMarkType = LeafKeys[hotkey];
+                    toggleMark(editor, format);
+                  }
+                }
+              }}
             />
           </div>
         </Slate>

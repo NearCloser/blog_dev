@@ -8,6 +8,7 @@ import LinkDetailPortal from '../InsertLink/LinkDetailPortal';
 import { useStore } from '@/store';
 import Tippy, { TippyProps } from '@tippyjs/react';
 import React from 'react';
+import { CodeBlock } from '../Code';
 
 export const RenderElement = ({ attributes, children, element }: RenderElementProps) => {
   const editor = useSlate();
@@ -15,6 +16,16 @@ export const RenderElement = ({ attributes, children, element }: RenderElementPr
   const setLinkElement = useStore((state) => state.setLinkElement);
 
   switch (element.type) {
+    case 'code':
+      console.log(element);
+      return (
+        // <CodeBlock
+        //   codeString={element.children.text}
+        //   language={'javascript'}
+        //   title={`exmaple.js`}
+        // />
+        <p>{children}</p>
+      );
     case 'image':
       return (
         <div {...attributes}>

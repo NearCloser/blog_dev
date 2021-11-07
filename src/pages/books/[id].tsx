@@ -149,7 +149,7 @@ const Home: NextPage = () => {
           </div>
         </div>
         <div className={style.create_container}>
-          {title && <Title {...{ label: 'タイトル', title, setTitle }} />}
+          <Title {...{ label: 'タイトル', title, setTitle }} />
 
           <div className={style.input_file_wrapper}>
             <label htmlFor='img_file' className={style.label}>
