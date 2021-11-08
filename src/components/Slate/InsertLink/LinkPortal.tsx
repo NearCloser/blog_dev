@@ -22,12 +22,13 @@ const validationSchema = Yup.object().shape({
 });
 
 const LinkPortal = () => {
+  const editor = useSlate();
   const isOpenLinkPortal = useStore((state) => state.isOpenLinkPortal);
   const toggleLinkPortal = useStore((state) => state.toggleLinkPortal);
+  const selection = useStore((state) => state.selection);
 
   const router = useRouter();
   const { id } = router.query;
-  const editor = useSlate();
 
   const formik = useFormik<LinkProps>({
     initialValues: {
@@ -50,6 +51,18 @@ const LinkPortal = () => {
         href,
         children: [{ text: linkText }],
       });
+    } else {
+      Transforms.wrapNodes(
+        editor,
+        {
+          type: 'link',
+          href,
+          children: [{ text: linkText }],
+        },
+        { split: true },
+      );
+
+      Transforms.collapse(editor, { edge: 'end' });
     }
 
     formik.resetForm();

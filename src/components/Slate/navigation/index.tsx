@@ -20,6 +20,7 @@ import { FormatUnderlined } from '@styled-icons/material/FormatUnderlined';
 import { Link as StyledLink } from '@styled-icons/boxicons-regular/Link';
 import style from '@/styles/create.module.scss';
 import { UserCustomHeadings } from '@/@types';
+import { FloatToolbar } from '@/components/Slate/Float';
 
 const SlateNavigation = () => {
   const elements: UserCustomHeadings = [
@@ -33,8 +34,8 @@ const SlateNavigation = () => {
   ];
 
   return (
-    <div className={style.slate_navigation_wrapper}>
-      <nav className={style.slate_navigation}>
+    <FloatToolbar>
+      <nav className='slate_navigation'>
         <HeadingsSelect elements={elements} />
         <MarkButton format={MARK_BOLD} icon={<FormatBold />} tooltip={{ content: 'Bold (⌘B)' }} />
         <MarkButton
@@ -47,15 +48,10 @@ const SlateNavigation = () => {
           icon={<FormatUnderlined />}
           tooltip={{ content: 'Underline (⌘U)' }}
         />
-        {/* <BlockButton
-          format={ELEMENT_CODE}
-          icon={<StyledCodeSlash />}
-          tooltip={{ content: 'Code (⌘U)' }}
-        /> */}
         <ImageUploadTool icon={<StyledImage />} />
         <InsertLinkTool icon={<StyledLink />} />
       </nav>
-    </div>
+    </FloatToolbar>
   );
 };
 
