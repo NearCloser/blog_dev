@@ -14,13 +14,12 @@ const Title = ({ label, title, setTitle }: TitleProps) => {
 
   return (
     <div className={style.title_input_container}>
-      <label htmlFor='main_title' className={style.label}>
-        {label}
-      </label>
       <div className={getStyle()}>
         <input
+          autoComplete={`false`}
+          placeholder={`Untitled`}
           type='text'
-          id='main_title'
+          id='mainTitle'
           className={style.input_box}
           value={title ?? ''}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

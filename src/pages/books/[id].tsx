@@ -149,8 +149,6 @@ const Home: NextPage = () => {
           </div>
         </div>
         <div className={style.create_container}>
-          <Title {...{ label: 'タイトル', title, setTitle }} />
-
           <div className={style.input_file_wrapper}>
             <label htmlFor='img_file' className={style.label}>
               サムネイル
@@ -178,12 +176,12 @@ const Home: NextPage = () => {
             )}
           </div>
 
-          <div className={style.created_at_wrapper}>
+          {/* <div className={style.created_at_wrapper}>
             <label htmlFor='createdAt' className={style.created_at_label}>
               投稿日
             </label>
             {createdAt && <Calendar {...{ createdAt, setCreatedAt }} />}
-          </div>
+          </div> */}
 
           <div className={style.created_at_wrapper}>
             <label htmlFor='createdAt' className={style.created_at_label}>

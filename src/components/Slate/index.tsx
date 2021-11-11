@@ -11,15 +11,24 @@ import {
   Transforms,
 } from 'slate';
 import { withHistory } from 'slate-history';
-import { Editable, withReact, Slate, RenderLeafProps } from 'slate-react';
+import { Editable, withReact, Slate, RenderLeafProps, ReactEditor } from 'slate-react';
 import { LeafKeys } from './command/leaf';
 import { toggleMark } from './utils';
 import { RenderElement } from './render/element';
 import { RenderLeaf } from './render/leaf';
-import { CustomEditor, FormattedTextMarkType } from '@/@types';
+import type {
+  CustomEditor,
+  CustomElement,
+  FormattedTextMarkType,
+  FormatType,
+  HeadingElement,
+  ParagraphElement,
+  TitleElement,
+} from '@/@types';
 import style from '@/styles/create.module.scss';
 import SlateNavigation from './navigation';
 import { useStore } from '@/store';
+import { Title } from '@/components';
 
 const withFloat = (editor: Editor) => {
   const { isInline, normalizeNode, isVoid, insertBreak, deleteBackward } = editor;
@@ -75,11 +84,31 @@ const withFloat = (editor: Editor) => {
   };
 
   editor.normalizeNode = (entry) => {
-    const [node] = entry;
+    const [node, path] = entry;
+    if (path.length === 0) {
+      for (const [child, childPath] of Node.children(editor, path)) {
+        const slateIndex = childPath[0];
+        const enforceType = (type: FormatType) => {
+          if (SlateElement.isElement(child) && child.type !== type) {
+            const newProperties: Partial<SlateElement> = { type };
+            Transforms.setNodes<SlateElement>(editor, newProperties, {
+              at: childPath,
+            });
+          }
+        };
 
-    if (SlateElement.isElement(node) && node.type === 'link') {
+        switch (slateIndex) {
+          case 0:
+            enforceType('title');
+            break;
+          case 1:
+            enforceType('paragraph');
+          default:
+            break;
+        }
+      }
     }
-    normalizeNode(entry);
+    normalizeNode([node, path]);
   };
 
   return editor;
@@ -100,7 +129,12 @@ const RichTextEditor = () => {
       {contents && (
         <Slate editor={editor} value={contents} onChange={(value) => setContents(value)}>
           <SlateNavigation />
-          <div className={style.slate_editor_main_wrapper}>
+          <div
+            className={style.slate_editor_main_wrapper}
+            onClick={() => {
+              editor && ReactEditor.focus(editor);
+            }}
+          >
             <Editable
               className={style.slate_editor_wrapper}
               renderElement={renderElement}

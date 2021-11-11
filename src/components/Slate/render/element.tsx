@@ -1,4 +1,4 @@
-import { ReactEditor, RenderElementProps, useSelected, useSlate } from 'slate-react';
+import { ReactEditor, RenderElementProps, useFocused, useSelected, useSlate } from 'slate-react';
 import { Transforms } from 'slate';
 import Image from 'next/image';
 import style from '@/styles/create.module.scss';
@@ -12,6 +12,7 @@ import { CodeBlock } from '../Code';
 
 export const RenderElement = ({ attributes, children, element }: RenderElementProps) => {
   const editor = useSlate();
+  const isFocused = useFocused();
   const toggleLinkDetailPortal = useStore((state) => state.toggleLinkDetailPortal);
   const setLinkElement = useStore((state) => state.setLinkElement);
 
@@ -111,6 +112,16 @@ export const RenderElement = ({ attributes, children, element }: RenderElementPr
         case 'h6':
           return <h6 {...attributes}>{children}</h6>;
       }
+    case 'title':
+      const isEmpty = element.children.length === 1 && element.children[0].text === '' && isFocused;
+      return (
+        <h1
+          {...attributes}
+          className={isEmpty ? style.slate_heading_title_empty : style.slate_heading_title}
+        >
+          {children}
+        </h1>
+      );
     case 'ordered-list':
       return <ol {...attributes}>{children}</ol>;
     case 'bulleted-list':

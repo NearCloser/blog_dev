@@ -30,7 +30,10 @@ const fetcher = async (url: string): Promise<ArticleList[] | null> => {
 
 const Home = () => {
   const router = useRouter();
-  const initialContents: Descendant[] = [{ type: 'paragraph', children: [{ text: '' }] }];
+  const initialContents: Descendant[] = [
+    { type: 'title', children: [{ text: '' }] },
+    { type: 'paragraph', children: [{ text: '' }] },
+  ];
   const { data, error } = useSWR('http://127.0.0.1:4000/v1/article', fetcher);
 
   const CreateArticleHandler = async () => {

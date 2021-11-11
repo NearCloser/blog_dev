@@ -23,6 +23,11 @@ export type HeadingElement = {
   children: FormattedText[];
 };
 
+export type TitleElement = {
+  type: 'title';
+  children: FormattedText[];
+};
+
 export type ItemListElement = {
   type: 'list-item';
   children: FormattedText[];
@@ -74,6 +79,7 @@ export type CustomElement =
   | ItemListElement
   | ParagraphElement
   | HeadingElement
+  | TitleElement
   | QuoteElement
   | LinkElement
   | ImageElement
@@ -89,6 +95,7 @@ declare module 'slate' {
 
 export type FormatType =
   | 'heading'
+  | 'title'
   | 'paragraph'
   | 'block-quote'
   | 'link'

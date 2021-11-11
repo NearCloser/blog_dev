@@ -30,7 +30,7 @@ export const toggleBlock: CustomEditorInterface['toggleBlock'] = (
       const CodeProps: Partial<CustomElement> = {
         type: isActive ? 'paragraph' : format,
       };
-      console.log('insert block');
+
       Transforms.setNodes(editor, CodeProps, { voids: true, mode: 'all' });
       break;
     default:
