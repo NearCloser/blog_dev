@@ -85,29 +85,29 @@ const withFloat = (editor: Editor) => {
 
   editor.normalizeNode = (entry) => {
     const [node, path] = entry;
-    if (path.length === 0) {
-      for (const [child, childPath] of Node.children(editor, path)) {
-        const slateIndex = childPath[0];
-        const enforceType = (type: FormatType) => {
-          if (SlateElement.isElement(child) && child.type !== type) {
-            const newProperties: Partial<SlateElement> = { type };
-            Transforms.setNodes<SlateElement>(editor, newProperties, {
-              at: childPath,
-            });
-          }
-        };
+    // if (path.length === 0) {
+    //   for (const [child, childPath] of Node.children(editor, path)) {
+    //     const slateIndex = childPath[0];
+    //     const enforceType = (type: FormatType) => {
+    //       if (SlateElement.isElement(child) && child.type !== type) {
+    //         const newProperties: Partial<SlateElement> = { type };
+    //         Transforms.setNodes<SlateElement>(editor, newProperties, {
+    //           at: childPath,
+    //         });
+    //       }
+    //     };
 
-        switch (slateIndex) {
-          case 0:
-            enforceType('title');
-            break;
-          case 1:
-            enforceType('paragraph');
-          default:
-            break;
-        }
-      }
-    }
+    //     switch (slateIndex) {
+    //       case 0:
+    //         enforceType('title');
+    //         break;
+    //       case 1:
+    //         enforceType('paragraph');
+    //       default:
+    //         break;
+    //     }
+    //   }
+    // }
     normalizeNode([node, path]);
   };
 
@@ -117,6 +117,8 @@ const withFloat = (editor: Editor) => {
 const RichTextEditor = () => {
   const contents = useStore((state) => state.contents);
   const setContents = useStore((state) => state.setContents);
+  const title = useStore((state) => state.title);
+  const setTitle = useStore((state) => state.setTitle);
 
   const editorRef = useRef<CustomEditor>();
   const renderElement = useCallback((props) => <RenderElement {...props} />, []);
@@ -129,6 +131,7 @@ const RichTextEditor = () => {
       {contents && (
         <Slate editor={editor} value={contents} onChange={(value) => setContents(value)}>
           <SlateNavigation />
+          <Title {...{ label: '', title, setTitle }} />
           <div
             className={style.slate_editor_main_wrapper}
             onClick={() => {

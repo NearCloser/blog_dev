@@ -122,17 +122,18 @@
 
 //title input
 .title_input_container {
-  padding-top: 1.4rem;
-  max-width: 650px;
+  padding: 1.8rem 1.3rem;
+  width: 100%;
 
   .input_container {
-    .input_box {
-      font-size: 3.2rem;
-      line-height: 1;
+    .textarea_box {
+      overflow: hidden;
+      resize: none;
+      font-size: 3rem;
+      line-height: 1.5;
       font-weight: 600;
       color: rgb(47, 59, 70);
       border-radius: 6px;
-      padding: 0.8rem 1.3rem;
       width: 100%;
       opacity: 0.9;
 
