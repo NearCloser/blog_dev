@@ -25,7 +25,7 @@ export const useFloat = ({
   const selectionExpanded = editor && isSelectionExpanded(editor);
   const selectionText = editor && getSelectionText(editor);
   const setSelection = useStore((state) => state.setSelection);
-  console.log(selectionExpanded);
+
   useEffect(() => {
     ref.current && selectionExpanded && setPositionAtSelection(ref.current, direction);
     editor && selectionExpanded && setSelection(editor?.selection);
@@ -53,7 +53,7 @@ export const useFloatVisible = ({ editor, ref }: { editor?: Editor; ref: any }) 
   const selectionExpanded = editor && isSelectionExpanded(editor);
   const selectionText = editor && getSelectionText(editor);
   const setSelection = useStore((state) => state.setSelection);
-  console.log(selectionText);
+
   const show = useCallback(() => {
     if (ref.current && hidden && selectionExpanded) {
       setHidden(false);

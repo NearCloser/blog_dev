@@ -9,6 +9,7 @@ interface T {
   createdAt: string | null;
   categoryId: string | null;
   contents: Descendant[] | null;
+  thumbnail: string | null;
   isOpenImagePortal: boolean;
   isOpenDeleteImagePortal: boolean;
   isOpenLinkPortal: boolean;
@@ -19,6 +20,7 @@ interface T {
   setTitle: (title: string | null) => void;
   setCreatedAt: (createdAt: string | null) => void;
   setCategory: (categoryId: string | null) => void;
+  setThumbnail: (thumbnail: string | null) => void;
   setContents: (contents: Descendant[] | null) => void;
   toggleImagePortal: () => void;
   toggleDeleteImagePortal: () => void;
@@ -33,6 +35,7 @@ const store = (set: SetState<T>, get: GetState<T>): T => ({
   createdAt: moment().format('YYYY-MM-DD'),
   categoryId: '',
   contents: null,
+  thumbnail: null,
   isOpenImagePortal: false,
   isOpenDeleteImagePortal: false,
   isOpenLinkPortal: false,
@@ -59,6 +62,11 @@ const store = (set: SetState<T>, get: GetState<T>): T => ({
     set((state) => ({
       ...state,
       contents,
+    })),
+  setThumbnail: (thumbnail: string | null): void =>
+    set((state) => ({
+      ...state,
+      thumbnail,
     })),
   toggleImagePortal: () =>
     set((state) => ({

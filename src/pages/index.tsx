@@ -2,12 +2,12 @@ import { MainLayout } from '@/layout';
 import Link from 'next/link';
 import { useStore } from '@/store';
 import style from '@/styles/home.module.scss';
-import { TimeFive } from '@styled-icons/boxicons-regular/TimeFive';
 import axios from 'axios';
 import moment from 'moment';
 import { useRouter } from 'next/router';
 import { Descendant } from 'slate';
 import useSWR from 'swr';
+import { MiniPortal } from '@/components';
 
 interface ArticleList {
   articleId: string;
@@ -59,31 +59,37 @@ const Home = () => {
 
         <div className={style.list_main_wrapper}>
           <div className={style.list_container}>
-            {data &&
-              data.map(({ title, createdAt, articleId, categoryId, categoryName }) => {
-                return (
-                  <Link href={`/books/${articleId}`} key={articleId}>
-                    <a>
-                      <div className={style.list_item}>
-                        <h2 className={style.list_title}>{title || 'Untitled'}</h2>
-                        <div className={style.tag_container}>
-                          <div className={style.tag_name}>タグの名前</div>
-                          <div className={style.tag_name}>タグの名前</div>
-                          <div className={style.tag_name}>タグの名前</div>
-                        </div>
+            <table className={style.article_table}>
+              <tbody>
+                <tr>
+                  <th>タイトル</th>
+                  <th>作成日</th>
+                  <th>カテゴリ</th>
+                </tr>
+                {data &&
+                  data.map(({ title, createdAt, articleId, categoryId, categoryName }) => {
+                    return (
+                      <tr className={style.contents_row_container} key={articleId}>
+                        <td className={style.contents_title}>
+                          <Link href={`/books/${articleId}`} key={articleId}>
+                            <a>{title || 'Untitled'} </a>
+                          </Link>
+                        </td>
+                        <td className={style.createdAt}>
+                          <span>{createdAt}</span>
+                        </td>
+                        <td className={style.catName} data-catid={categoryId}>
+                          {categoryName}
+                        </td>
 
-                        <div className={style.created_at_container}>
-                          <div className={style.created_at}>
-                            <TimeFive size={14} />
-                            <span>{createdAt}</span>
-                          </div>
-                        </div>
-                        <div className={style.category_container}>{categoryName}</div>
-                      </div>
-                    </a>
-                  </Link>
-                );
-              })}
+                        <td className={style.option_icon_container}>
+                          <MiniPortal docID={articleId} />
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -92,3 +98,13 @@ const Home = () => {
 };
 
 export default Home;
+
+const MicroPortal = () => {
+  return (
+    <div className={style.microPortal_container}>
+      <ul className={style.microPortal_list_wrapper}>
+        <li className={style.microPortal_list_delete}>削除する</li>
+      </ul>
+    </div>
+  );
+};

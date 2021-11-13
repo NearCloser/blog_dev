@@ -37,6 +37,7 @@ interface ArticleList {
   categoryName: string;
   createdAt: string;
   contents: string;
+  thumbnail: string;
 }
 
 const Home: NextPage = () => {
@@ -47,16 +48,18 @@ const Home: NextPage = () => {
   const setCreatedAt = useStore((state) => state.setCreatedAt);
   const setCategory = useStore((state) => state.setCategory);
   const setContents = useStore((state) => state.setContents);
+  const setThumbnail = useStore((state) => state.setThumbnail);
 
   const RetrieveArticle = useCallback(async () => {
     try {
       const { data } = await axios.get<ArticleList>(`http://127.0.0.1:4000/v1/article/${id}`);
-      const { title, createdAt, contents, categoryId } = data;
+      const { title, createdAt, contents, categoryId, thumbnail } = data;
       const parsedContents = JSON.parse(contents);
       setTitle(title);
       setCategory(categoryId);
       setCreatedAt(createdAt);
       setContents(parsedContents);
+      setThumbnail(thumbnail);
     } catch (error) {
       console.log(error);
     }
@@ -106,11 +109,15 @@ const Home: NextPage = () => {
     const params = new FormData();
     params.append('file', imgData);
     try {
-      const { data } = await axios.post('http://127.0.0.1:4000/v1/registerImage', params, {
-        headers: {
-          'content-type': 'multipart/form-data',
+      const { data } = await axios.post(
+        `http://127.0.0.1:4000/v1/article/${id}/thumbnail`,
+        params,
+        {
+          headers: {
+            'content-type': 'multipart/form-data',
+          },
         },
-      });
+      );
       console.log(data);
     } catch (e) {
       console.log(e);
@@ -121,6 +128,7 @@ const Home: NextPage = () => {
   const createdAt = useStore((state) => state.createdAt);
   const contents = useStore((state) => state.contents);
   const categoryId = useStore((state) => state.categoryId);
+  const thumbnail = useStore((state) => state.thumbnail);
 
   const selectCat: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
     setCategory(e.target.value);
@@ -165,9 +173,9 @@ const Home: NextPage = () => {
                 ファイルを選択する
               </button>
             </div>
-            {value && (
+            {thumbnail && (
               <Image
-                src={value}
+                src={`https://delivery.far-float.jp/${id}/${thumbnail}`}
                 alt='alt'
                 className={style.input_file_img}
                 width={`300`}
@@ -183,7 +191,7 @@ const Home: NextPage = () => {
             {createdAt && <Calendar {...{ createdAt, setCreatedAt }} />}
           </div> */}
 
-          <div className={style.created_at_wrapper}>
+          {/* <div className={style.created_at_wrapper}>
             <label htmlFor='createdAt' className={style.created_at_label}>
               カテゴリー
             </label>
@@ -207,7 +215,7 @@ const Home: NextPage = () => {
                 })}
               </select>
             )}
-          </div>
+          </div> */}
 
           {contents ? (
             <div className={style.contents_main_wrapper}>
